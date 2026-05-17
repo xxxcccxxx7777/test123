@@ -1,0 +1,950 @@
+база 
+using System;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks.CompilerServices;
+using Il2CppDummyDll;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+// Token: 0x02000005 RID: 5
+[Token(Token = "0x2000005")]
+public sealed class FlashbangManager : MonoBehaviour
+{
+	// Token: 0x06000030 RID: 48 RVA: 0x00002066 File Offset: 0x00000266
+	[Token(Token = "0x6000030")]
+	[Address(RVA = "0x318330", Offset = "0x316B30", VA = "0x180318330")]
+	private void Awake()
+	{
+	}
+
+	// Token: 0x06000031 RID: 49 RVA: 0x00002066 File Offset: 0x00000266
+	[Token(Token = "0x6000031")]
+	[Address(RVA = "0x318730", Offset = "0x316F30", VA = "0x180318730")]
+	private void Start()
+	{
+	}
+
+	// Token: 0x06000032 RID: 50 RVA: 0x00002188 File Offset: 0x00000388
+	[Token(Token = "0x6000032")]
+	[Address(RVA = "0x3188D0", Offset = "0x3170D0", VA = "0x1803188D0")]
+	private UniTaskVoid SpawnLoopAsync(CancellationToken cancellationToken)
+	{
+		return default(UniTaskVoid);
+	}
+
+	// Token: 0x06000033 RID: 51 RVA: 0x00002066 File Offset: 0x00000266
+	[Token(Token = "0x6000033")]
+	[Address(RVA = "0x318A60", Offset = "0x317260", VA = "0x180318A60")]
+	public void SpawnFlashbang()
+	{
+	}
+
+	// Token: 0x06000034 RID: 52 RVA: 0x000021A0 File Offset: 0x000003A0
+	[Token(Token = "0x6000034")]
+	[Address(RVA = "0x3190B0", Offset = "0x3178B0", VA = "0x1803190B0")]
+	private Vector2 GetScreenCenter()
+	{
+		return default(Vector2);
+	}
+
+	// Token: 0x06000035 RID: 53 RVA: 0x000021B8 File Offset: 0x000003B8
+	[Token(Token = "0x6000035")]
+	[Address(RVA = "0x319260", Offset = "0x317A60", VA = "0x180319260")]
+	private Vector2 GetRandomEdgeSpawnPosition()
+	{
+		return default(Vector2);
+	}
+
+	// Token: 0x06000036 RID: 54 RVA: 0x00002066 File Offset: 0x00000266
+	[Token(Token = "0x6000036")]
+	[Address(RVA = "0x319530", Offset = "0x317D30", VA = "0x180319530")]
+	public FlashbangManager()
+	{
+	}
+
+	// Token: 0x04000052 RID: 82
+	[Token(Token = "0x4000052")]
+	[Il2CppDummyDll.FieldOffset(Offset = "0x20")]
+	private Flashbang flashbangTemplate;
+
+	// Token: 0x04000053 RID: 83
+	[Token(Token = "0x4000053")]
+	[Il2CppDummyDll.FieldOffset(Offset = "0x28")]
+	private Camera worldCamera;
+
+	// Token: 0x04000054 RID: 84
+	[Token(Token = "0x4000054")]
+	[Il2CppDummyDll.FieldOffset(Offset = "0x30")]
+	private float minSpawnInterval;
+
+	// Token: 0x04000055 RID: 85
+	[Token(Token = "0x4000055")]
+	[Il2CppDummyDll.FieldOffset(Offset = "0x34")]
+	private float maxSpawnInterval;
+
+	// Token: 0x04000056 RID: 86
+	[Token(Token = "0x4000056")]
+	[Il2CppDummyDll.FieldOffset(Offset = "0x38")]
+	private float spawnEdgeOffset;
+
+	// Token: 0x04000057 RID: 87
+	[Token(Token = "0x4000057")]
+	[Il2CppDummyDll.FieldOffset(Offset = "0x3C")]
+	private float minThrowSpeed;
+
+	// Token: 0x04000058 RID: 88
+	[Token(Token = "0x4000058")]
+	[Il2CppDummyDll.FieldOffset(Offset = "0x40")]
+	private float maxThrowSpeed;
+
+	// Token: 0x04000059 RID: 89
+	[Token(Token = "0x4000059")]
+	[Il2CppDummyDll.FieldOffset(Offset = "0x44")]
+	private float centerAimVariance;
+
+	// Token: 0x0400005A RID: 90
+	[Token(Token = "0x400005A")]
+	[Il2CppDummyDll.FieldOffset(Offset = "0x48")]
+	private float minAngularVelocity;
+
+	// Token: 0x0400005B RID: 91
+	[Token(Token = "0x400005B")]
+	[Il2CppDummyDll.FieldOffset(Offset = "0x4C")]
+	private float maxAngularVelocity;
+
+	// Token: 0x0400005C RID: 92
+	[Token(Token = "0x400005C")]
+	[Il2CppDummyDll.FieldOffset(Offset = "0x50")]
+	private int maxActiveFlashbangs;
+
+	// Token: 0x0400005D RID: 93
+	[Token(Token = "0x400005D")]
+	[Il2CppDummyDll.FieldOffset(Offset = "0x54")]
+	private bool spawnOnStart;
+
+	// Token: 0x02000006 RID: 6
+	[Token(Token = "0x2000006")]
+	[StructLayout(3)]
+	private struct <SpawnLoopAsync>d__14 : IEquatable<BackgroundPosition>
+	{
+		// Token: 0x06000037 RID: 55 RVA: 0x00002066 File Offset: 0x00000266
+		[Token(Token = "0x6000037")]
+		[Address(RVA = "0x3195C0", Offset = "0x317DC0", VA = "0x1803195C0", Slot = "4")]
+		private void MoveNext()
+		{
+		}
+
+		// Token: 0x06000038 RID: 56 RVA: 0x00002066 File Offset: 0x00000266
+		[Token(Token = "0x6000038")]
+		[Address(RVA = "0x318320", Offset = "0x316B20", VA = "0x180318320", Slot = "5")]
+		private void SetStateMachine(IAsyncStateMachine stateMachine)
+		{
+		}
+
+		// Token: 0x0400005E RID: 94
+		[Token(Token = "0x400005E")]
+		[Il2CppDummyDll.FieldOffset(Offset = "0x0")]
+		public int <>1__state;
+
+		// Token: 0x0400005F RID: 95
+		[Token(Token = "0x400005F")]
+		[Il2CppDummyDll.FieldOffset(Offset = "0x8")]
+		public AsyncUniTaskVoidMethodBuilder <>t__builder;
+
+		// Token: 0x04000060 RID: 96
+		[Token(Token = "0x4000060")]
+		[Il2CppDummyDll.FieldOffset(Offset = "0x10")]
+		public FlashbangManager <>4__this;
+
+		// Token: 0x04000061 RID: 97
+		[Token(Token = "0x4000061")]
+		[Il2CppDummyDll.FieldOffset(Offset = "0x18")]
+		public CancellationToken cancellationToken;
+
+		// Token: 0x04000062 RID: 98
+		[Token(Token = "0x4000062")]
+		[Il2CppDummyDll.FieldOffset(Offset = "0x20")]
+		private UniTask.Awaiter <>u__1;
+	}
+}
+
+ImageBase: 0x180000000
+Methods found: 7
+
+1).
+Name: Awake
+Signature: private void Awake()
+RVA: 0x318330
+VA: 0x180318330
+IDA_EA: 0x180318330
+
+// ERROR: Decompilation failed: 18031853b: call analysis failed
+
+
+
+2).
+Name: Start
+Signature: private void Start()
+RVA: 0x318730
+VA: 0x180318730
+IDA_EA: 0x180318730
+
+__int64 __fastcall FlashbangManager__Start(__int64 a1, __int64 a2)
+{
+  __int64 *v3; // rdx
+  __int64 v4; // rbx
+  unsigned __int64 v5; // r8
+  int v6; // eax
+  signed __int64 v7; // rtt
+  signed __int64 v8; // rtt
+  signed __int64 v9; // rtt
+  __int64 v10; // rbx
+  signed __int32 v12[8]; // [rsp+0h] [rbp-58h] BYREF
+  __int64 v13; // [rsp+20h] [rbp-38h] BYREF
+  __int64 v14; // [rsp+28h] [rbp-30h] BYREF
+  __int64 v15; // [rsp+30h] [rbp-28h] BYREF
+  __int64 v16; // [rsp+38h] [rbp-20h] BYREF
+  __int128 v17; // [rsp+40h] [rbp-18h]
+
+  if ( !a1 )
+    sub_18025F9D0(0i64, a2);
+  v4 = UnityEngine_MonoBehaviour__get_destroyCancellationToken(a1, 0i64);
+  if ( !byte_18209DD92 )
+  {
+    sub_18026DA90(&Method_Cysharp_Threading_Tasks_CompilerServices_AsyncUniTaskVoidMethodBuilder_Start_FlashbangManager__SpawnLoopAsync_d__14___);
+    _InterlockedOr(v12, 0);
+    byte_18209DD92 = 1;
+  }
+  v13 = 0i64;
+  v15 = 0i64;
+  v16 = 0i64;
+  v14 = 0i64;
+  v6 = dword_18209DC58;
+  v17 = 0i64;
+  if ( dword_18209DC58 )
+  {
+    v5 = ((unsigned __int64)&v14 >> 12) & 0x3F;
+    v3 = &qword_1820A8140[(((unsigned __int64)&v14 >> 12) & 0x1FFFFF) >> 6];
+    _m_prefetchw(v3 + 35932);
+    do
+      v7 = v3[35932];
+    while ( v7 != _InterlockedCompareExchange64(v3 + 35932, v7 | (1i64 << v5), v7) );
+    v6 = dword_18209DC58;
+  }
+  v15 = a1;
+  if ( v6 )
+  {
+    v5 = ((unsigned __int64)&v15 >> 12) & 0x3F;
+    v3 = &qword_1820A8140[(((unsigned __int64)&v15 >> 12) & 0x1FFFFF) >> 6];
+    _m_prefetchw(v3 + 35932);
+    do
+      v8 = v3[35932];
+    while ( v8 != _InterlockedCompareExchange64(v3 + 35932, v8 | (1i64 << v5), v8) );
+    v6 = dword_18209DC58;
+  }
+  v16 = v4;
+  if ( v6 )
+  {
+    v5 = ((unsigned __int64)&v16 >> 12) & 0x3F;
+    v3 = &qword_1820A8140[(((unsigned __int64)&v16 >> 12) & 0x1FFFFF) >> 6];
+    _m_prefetchw(v3 + 35932);
+    do
+      v9 = v3[35932];
+    while ( v9 != _InterlockedCompareExchange64(v3 + 35932, v9 | (1i64 << v5), v9) );
+  }
+  v10 = Method_Cysharp_Threading_Tasks_CompilerServices_AsyncUniTaskVoidMethodBuilder_Start_FlashbangManager__SpawnLoopAsync_d__14___;
+  LODWORD(v13) = -1;
+  if ( !*(_QWORD *)(Method_Cysharp_Threading_Tasks_CompilerServices_AsyncUniTaskVoidMethodBuilder_Start_FlashbangManager__SpawnLoopAsync_d__14___
+                  + 56) )
+    sub_18025CA20(
+      Method_Cysharp_Threading_Tasks_CompilerServices_AsyncUniTaskVoidMethodBuilder_Start_FlashbangManager__SpawnLoopAsync_d__14___,
+      v3,
+      v5,
+      qword_1820A8140,
+      v13,
+      v14,
+      v15,
+      v16,
+      v17,
+      *((_QWORD *)&v17 + 1));
+  return FlashbangManager__SpawnLoopAsync_d__14__MoveNext((__int64)&v13, *(_QWORD *)(*(_QWORD *)(v10 + 56) + 16i64));
+}
+
+
+
+
+3).
+Name: SpawnLoopAsync
+Signature: private UniTaskVoid SpawnLoopAsync(CancellationToken cancellationToken)
+RVA: 0x3188D0
+VA: 0x1803188D0
+IDA_EA: 0x1803188D0
+
+char __fastcall FlashbangManager__SpawnLoopAsync(__int64 a1, __int64 *a2, unsigned __int64 a3)
+{
+  __int64 v3; // rbx
+  int v5; // eax
+  signed __int64 v6; // rtt
+  signed __int64 v7; // rtt
+  signed __int64 v8; // rtt
+  __int64 v9; // rbx
+  signed __int32 v11[8]; // [rsp+0h] [rbp-58h] BYREF
+  __int64 v12; // [rsp+20h] [rbp-38h] BYREF
+  __int64 v13; // [rsp+28h] [rbp-30h] BYREF
+  __int64 v14; // [rsp+30h] [rbp-28h] BYREF
+  __int64 v15; // [rsp+38h] [rbp-20h] BYREF
+  __int128 v16; // [rsp+40h] [rbp-18h]
+
+  v3 = (__int64)a2;
+  if ( !byte_18209DD92 )
+  {
+    sub_18026DA90(&Method_Cysharp_Threading_Tasks_CompilerServices_AsyncUniTaskVoidMethodBuilder_Start_FlashbangManager__SpawnLoopAsync_d__14___);
+    _InterlockedOr(v11, 0);
+    byte_18209DD92 = 1;
+  }
+  v12 = 0i64;
+  v14 = 0i64;
+  v15 = 0i64;
+  v13 = 0i64;
+  v5 = dword_18209DC58;
+  v16 = 0i64;
+  if ( dword_18209DC58 )
+  {
+    a3 = ((unsigned __int64)&v13 >> 12) & 0x3F;
+    a2 = &qword_1820A8140[(((unsigned __int64)&v13 >> 12) & 0x1FFFFF) >> 6];
+    _m_prefetchw(a2 + 35932);
+    do
+      v6 = a2[35932];
+    while ( v6 != _InterlockedCompareExchange64(a2 + 35932, v6 | (1i64 << a3), v6) );
+    v5 = dword_18209DC58;
+  }
+  v14 = a1;
+  if ( v5 )
+  {
+    a3 = ((unsigned __int64)&v14 >> 12) & 0x3F;
+    a2 = &qword_1820A8140[(((unsigned __int64)&v14 >> 12) & 0x1FFFFF) >> 6];
+    _m_prefetchw(a2 + 35932);
+    do
+      v7 = a2[35932];
+    while ( v7 != _InterlockedCompareExchange64(a2 + 35932, v7 | (1i64 << a3), v7) );
+    v5 = dword_18209DC58;
+  }
+  v15 = v3;
+  if ( v5 )
+  {
+    a3 = ((unsigned __int64)&v15 >> 12) & 0x3F;
+    a2 = &qword_1820A8140[(((unsigned __int64)&v15 >> 12) & 0x1FFFFF) >> 6];
+    _m_prefetchw(a2 + 35932);
+    do
+      v8 = a2[35932];
+    while ( v8 != _InterlockedCompareExchange64(a2 + 35932, v8 | (1i64 << a3), v8) );
+  }
+  v9 = Method_Cysharp_Threading_Tasks_CompilerServices_AsyncUniTaskVoidMethodBuilder_Start_FlashbangManager__SpawnLoopAsync_d__14___;
+  LODWORD(v12) = -1;
+  if ( !*(_QWORD *)(Method_Cysharp_Threading_Tasks_CompilerServices_AsyncUniTaskVoidMethodBuilder_Start_FlashbangManager__SpawnLoopAsync_d__14___
+                  + 56) )
+    sub_18025CA20(
+      Method_Cysharp_Threading_Tasks_CompilerServices_AsyncUniTaskVoidMethodBuilder_Start_FlashbangManager__SpawnLoopAsync_d__14___,
+      a2,
+      a3,
+      qword_1820A8140,
+      v12,
+      v13,
+      v14,
+      v15,
+      v16,
+      *((_QWORD *)&v16 + 1));
+  FlashbangManager__SpawnLoopAsync_d__14__MoveNext((__int64)&v12, *(_QWORD *)(*(_QWORD *)(v9 + 56) + 16i64));
+  return 0;
+}
+
+
+
+
+4).
+Name: SpawnFlashbang
+Signature: public void SpawnFlashbang()
+RVA: 0x318A60
+VA: 0x180318A60
+IDA_EA: 0x180318A60
+
+void __fastcall FlashbangManager__SpawnFlashbang(__int64 a1)
+{
+  __int64 v2; // rdi
+  __int64 v3; // rdi
+  __int64 v4; // rax
+  __int64 v5; // rdx
+  __int64 *v6; // rsi
+  __int64 *v7; // rcx
+  __int64 v8; // rdi
+  __int64 v9; // rbp
+  void (__fastcall *v10)(__int64, __int128 *); // rax
+  __int64 v11; // rdi
+  void (__fastcall *v12)(__int64, unsigned __int64 *, __int64, __int64 *); // rax
+  void (__fastcall *v13)(unsigned __int64 *); // rax
+  __m128 v14; // xmm13
+  __m128 v15; // xmm6
+  __m128 v16; // xmm7
+  __int64 v17; // rdx
+  unsigned int *v18; // rcx
+  float v19; // xmm0_4
+  double v20; // xmm0_8
+  float v21; // xmm11_4
+  __int64 v22; // rdx
+  __int64 v23; // rcx
+  __int64 v24; // rsi
+  __int128 v25; // xmm10
+  __int64 v26; // rdi
+  __int64 v27; // rdx
+  __int64 v28; // r8
+  __int64 v29; // r9
+  __int64 v30; // rax
+  __int64 v31; // rsi
+  __int64 v32; // rdi
+  __int64 v33; // rax
+  __int64 v34; // rdx
+  __int64 v35; // rax
+  __int64 v36; // rax
+  __int64 v37; // rax
+  signed __int32 v38[8]; // [rsp+0h] [rbp-E8h] BYREF
+  __int64 v39; // [rsp+20h] [rbp-C8h]
+  __int64 v40; // [rsp+28h] [rbp-C0h]
+  __int64 v41; // [rsp+30h] [rbp-B8h] BYREF
+  __int64 v42; // [rsp+38h] [rbp-B0h]
+  __int128 v43; // [rsp+40h] [rbp-A8h] BYREF
+  unsigned __int64 v44; // [rsp+50h] [rbp-98h] BYREF
+  float v45; // [rsp+58h] [rbp-90h]
+  unsigned __int64 v46; // [rsp+F0h] [rbp+8h] BYREF
+  __int64 v47; // [rsp+100h] [rbp+18h]
+
+  if ( !byte_18209DD93 )
+  {
+    sub_18026DA90(&Method_UnityEngine_Object_Instantiate_Flashbang___);
+    _InterlockedOr(v38, 0);
+    sub_18026DA90(&UnityEngine_Object_TypeInfo);
+    _InterlockedOr(v38, 0);
+    byte_18209DD93 = 1;
+  }
+  v2 = *(_QWORD *)(a1 + 32);
+  if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+    il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+  if ( !byte_1820A3F65 )
+  {
+    sub_18026DA90(&UnityEngine_Object_TypeInfo);
+    _InterlockedOr(v38, 0);
+    byte_1820A3F65 = 1;
+  }
+  if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+    il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+  if ( !byte_1820A3F49 )
+  {
+    sub_18026DA90(&UnityEngine_Object_TypeInfo);
+    _InterlockedOr(v38, 0);
+    byte_1820A3F49 = 1;
+  }
+  if ( v2 )
+  {
+    if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+      il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+    if ( *(_QWORD *)(v2 + 16) )
+    {
+      v3 = *(_QWORD *)(a1 + 40);
+      if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+        il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+      if ( !byte_1820A3F65 )
+      {
+        sub_18026DA90(&UnityEngine_Object_TypeInfo);
+        _InterlockedOr(v38, 0);
+        byte_1820A3F65 = 1;
+      }
+      if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+        il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+      if ( !byte_1820A3F49 )
+      {
+        sub_18026DA90(&UnityEngine_Object_TypeInfo);
+        _InterlockedOr(v38, 0);
+        byte_1820A3F49 = 1;
+      }
+      if ( v3 )
+      {
+        if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+          il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+        if ( *(_QWORD *)(v3 + 16) )
+        {
+          if ( !byte_18209DE39 )
+          {
+            sub_18026DA90(&Flashbang_TypeInfo);
+            _InterlockedOr(v38, 0);
+            byte_18209DE39 = 1;
+          }
+          if ( **(_DWORD **)(Flashbang_TypeInfo + 184) < *(_DWORD *)(a1 + 80) )
+          {
+            v4 = FlashbangManager__GetRandomEdgeSpawnPosition(a1, 0i64);
+            v6 = *(__int64 **)(a1 + 40);
+            v47 = v4;
+            v7 = v6;
+            if ( !v6 )
+              goto LABEL_67;
+            v8 = UnityEngine_Component__get_transform(v6, 0i64);
+            if ( !v8 )
+              goto LABEL_67;
+            if ( !byte_1820A4390 )
+            {
+              sub_18026DA90(&Method_UnityEngine_Object_MarshalledUnityObject_MarshalNotNull_Transform___);
+              _InterlockedOr(v38, 0);
+              byte_1820A4390 = 1;
+            }
+            *(_QWORD *)&v43 = 0i64;
+            DWORD2(v43) = 0;
+            v9 = *(_QWORD *)(v8 + 16);
+            if ( !v9 )
+              UnityEngine_Bindings_ThrowHelper__ThrowNullReferenceException(v8, 0i64);
+            v10 = (void (__fastcall *)(__int64, __int128 *))qword_1820A43B0;
+            if ( !qword_1820A43B0 )
+            {
+              v10 = (void (__fastcall *)(__int64, __int128 *))il2cpp_resolve_icall_0(
+                                                                "UnityEngine.Transform::get_position_Injected(System.IntP"
+                                                                "tr,UnityEngine.Vector3&)");
+              if ( !v10 )
+              {
+                v35 = sub_180279910("UnityEngine.Transform::get_position_Injected(System.IntPtr,UnityEngine.Vector3&)");
+                sub_1802776D0(v35, 0i64);
+              }
+              qword_1820A43B0 = (__int64)v10;
+            }
+            v10(v9, &v43);
+            v44 = _mm_unpacklo_ps((__m128)0x3F000000u, (__m128)0x3F000000u).m128_u64[0];
+            v45 = -*((float *)&v43 + 2);
+            if ( !byte_1820A2B26 )
+            {
+              sub_18026DA90(&Method_UnityEngine_Object_MarshalledUnityObject_MarshalNotNull_Camera___);
+              _InterlockedOr(v38, 0);
+              byte_1820A2B26 = 1;
+            }
+            v41 = 0i64;
+            LODWORD(v42) = 0;
+            v11 = v6[2];
+            if ( !v11 )
+              UnityEngine_Bindings_ThrowHelper__ThrowNullReferenceException(v6, 0i64);
+            v12 = (void (__fastcall *)(__int64, unsigned __int64 *, __int64, __int64 *))qword_1820A2C58;
+            if ( !qword_1820A2C58 )
+            {
+              v12 = (void (__fastcall *)(__int64, unsigned __int64 *, __int64, __int64 *))il2cpp_resolve_icall_0(
+                                                                                            "UnityEngine.Camera::Viewport"
+                                                                                            "ToWorldPoint_Injected(System"
+                                                                                            ".IntPtr,UnityEngine.Vector3&"
+                                                                                            ",UnityEngine.Camera/MonoOrSt"
+                                                                                            "ereoscopicEye,UnityEngine.Vector3&)");
+              if ( !v12 )
+              {
+                v36 = sub_180279910(
+                        "UnityEngine.Camera::ViewportToWorldPoint_Injected(System.IntPtr,UnityEngine.Vector3&,UnityEngine"
+                        ".Camera/MonoOrStereoscopicEye,UnityEngine.Vector3&)");
+                sub_1802776D0(v36, 0i64);
+              }
+              qword_1820A2C58 = (__int64)v12;
+            }
+            v12(v11, &v44, 2i64, &v41);
+            v46 = 0i64;
+            v13 = (void (__fastcall *)(unsigned __int64 *))qword_1820A3C30;
+            if ( !qword_1820A3C30 )
+            {
+              v13 = (void (__fastcall *)(unsigned __int64 *))il2cpp_resolve_icall_0(
+                                                               "UnityEngine.Random::GetRandomUnitCircle(UnityEngine.Vector2&)");
+              if ( !v13 )
+              {
+                v37 = sub_180279910("UnityEngine.Random::GetRandomUnitCircle(UnityEngine.Vector2&)");
+                sub_1802776D0(v37, 0i64);
+              }
+              qword_1820A3C30 = (__int64)v13;
+            }
+            v13(&v46);
+            v15 = (__m128)(unsigned int)v46;
+            v16 = (__m128)HIDWORD(v46);
+            v14 = (__m128)HIDWORD(v47);
+            v15.m128_f32[0] = (float)((float)(*(float *)&v46 * *(float *)(a1 + 68)) + *(float *)&v41) - *(float *)&v47;
+            v16.m128_f32[0] = (float)((float)(*((float *)&v46 + 1) * *(float *)(a1 + 68)) + *((float *)&v41 + 1))
+                            - *((float *)&v47 + 1);
+            v46 = _mm_unpacklo_ps(v15, v16).m128_u64[0];
+            if ( !byte_1820A3B10 )
+            {
+              sub_18026DA90(&UnityEngine_Vector2_TypeInfo);
+              _InterlockedOr(v38, 0);
+              byte_1820A3B10 = 1;
+            }
+            v19 = sub_181084410(&v46);
+            if ( v19 <= 0.0000099999997 )
+            {
+              v18 = *(unsigned int **)(UnityEngine_Vector2_TypeInfo + 184);
+              v15 = (__m128)*v18;
+              v16 = (__m128)v18[1];
+            }
+            else
+            {
+              v15.m128_f32[0] = v15.m128_f32[0] / v19;
+              v16.m128_f32[0] = v16.m128_f32[0] / v19;
+            }
+            v20 = UnityEngine_Random__Range(v18, v17, 0i64);
+            v21 = *(float *)&v20;
+            UnityEngine_Random__Range(v23, v22, 0i64);
+            UnityEngine_Random__get_value(0i64);
+            v24 = *(_QWORD *)(a1 + 32);
+            if ( !byte_18209C15D )
+            {
+              sub_18026DA90(&UnityEngine_Quaternion_TypeInfo);
+              _InterlockedOr(v38, 0);
+              byte_18209C15D = 1;
+            }
+            v25 = *(_OWORD *)*(_QWORD *)(UnityEngine_Quaternion_TypeInfo + 184);
+            if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+              il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+            v26 = Method_UnityEngine_Object_Instantiate_Flashbang___;
+            if ( !*(_QWORD *)(Method_UnityEngine_Object_Instantiate_Flashbang___ + 56) )
+            {
+              sub_18026DA90(&UnityEngine_Object_TypeInfo);
+              _InterlockedOr(v38, 0);
+              if ( !*(_QWORD *)(v26 + 56) )
+                sub_18025CA20(v26, v27, v28, v29, v39, v40, v41, v42, v43, *((_QWORD *)&v43 + 1));
+            }
+            if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+              il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+            v44 = _mm_unpacklo_ps((__m128)(unsigned int)v47, v14).m128_u64[0];
+            v45 = 0.0;
+            v43 = v25;
+            v30 = UnityEngine_Object__Instantiate(v24, &v44, &v43, 0i64);
+            v7 = *(__int64 **)(v26 + 56);
+            v31 = v30;
+            v32 = *v7;
+            if ( (*(_BYTE *)(*v7 + 309) & 1) == 0 )
+              v32 = sub_18025C9A0(*v7);
+            if ( !v31 )
+LABEL_67:
+              sub_18025F9D0(v7, v5);
+            v33 = sub_1802A7AB0(v31, v32);
+            if ( !v33 )
+              sub_180260180(v31, v32);
+            v34 = *(_QWORD *)(a1 + 40);
+            v15.m128_f32[0] = v15.m128_f32[0] * v21;
+            v39 = 0i64;
+            v16.m128_f32[0] = v16.m128_f32[0] * v21;
+            Flashbang__ActivateThrown(v33, v34, _mm_unpacklo_ps(v15, v16).m128_i64[0]);
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+
+5).
+Name: GetScreenCenter
+Signature: private Vector2 GetScreenCenter()
+RVA: 0x3190B0
+VA: 0x1803190B0
+IDA_EA: 0x1803190B0
+
+unsigned __int64 __fastcall FlashbangManager__GetScreenCenter(__int64 a1, __int64 a2)
+{
+  __int64 v2; // rdi
+  __int64 v3; // rcx
+  __int64 v4; // rbx
+  __int64 v5; // rsi
+  void (__fastcall *v6)(__int64, __int64 *); // rax
+  __int64 v7; // rbx
+  void (__fastcall *v8)(__int64, unsigned __int64 *, __int64, __int64 *); // rax
+  __int64 v10; // rax
+  __int64 v11; // rax
+  signed __int32 v12[8]; // [rsp+0h] [rbp-58h] BYREF
+  __int64 v13; // [rsp+20h] [rbp-38h] BYREF
+  int v14; // [rsp+28h] [rbp-30h]
+  __int64 v15; // [rsp+30h] [rbp-28h] BYREF
+  float v16; // [rsp+38h] [rbp-20h]
+  unsigned __int64 v17; // [rsp+40h] [rbp-18h] BYREF
+  float v18; // [rsp+48h] [rbp-10h]
+
+  v2 = *(_QWORD *)(a1 + 40);
+  v3 = v2;
+  if ( !v2 || (v4 = UnityEngine_Component__get_transform(v2, 0i64)) == 0 )
+    sub_18025F9D0(v3, a2);
+  if ( !byte_1820A4390 )
+  {
+    sub_18026DA90(&Method_UnityEngine_Object_MarshalledUnityObject_MarshalNotNull_Transform___);
+    _InterlockedOr(v12, 0);
+    byte_1820A4390 = 1;
+  }
+  v15 = 0i64;
+  v16 = 0.0;
+  v5 = *(_QWORD *)(v4 + 16);
+  if ( !v5 )
+    UnityEngine_Bindings_ThrowHelper__ThrowNullReferenceException(v4, 0i64);
+  v6 = (void (__fastcall *)(__int64, __int64 *))qword_1820A43B0;
+  if ( !qword_1820A43B0 )
+  {
+    v6 = (void (__fastcall *)(__int64, __int64 *))il2cpp_resolve_icall_0(
+                                                    "UnityEngine.Transform::get_position_Injected(System.IntPtr,UnityEngine.Vector3&)");
+    if ( !v6 )
+    {
+      v10 = sub_180279910("UnityEngine.Transform::get_position_Injected(System.IntPtr,UnityEngine.Vector3&)");
+      sub_1802776D0(v10, 0i64);
+    }
+    qword_1820A43B0 = (__int64)v6;
+  }
+  v6(v5, &v15);
+  v17 = _mm_unpacklo_ps((__m128)0x3F000000u, (__m128)0x3F000000u).m128_u64[0];
+  v18 = -v16;
+  if ( !byte_1820A2B26 )
+  {
+    sub_18026DA90(&Method_UnityEngine_Object_MarshalledUnityObject_MarshalNotNull_Camera___);
+    _InterlockedOr(v12, 0);
+    byte_1820A2B26 = 1;
+  }
+  v13 = 0i64;
+  v14 = 0;
+  v7 = *(_QWORD *)(v2 + 16);
+  if ( !v7 )
+    UnityEngine_Bindings_ThrowHelper__ThrowNullReferenceException(v2, 0i64);
+  v8 = (void (__fastcall *)(__int64, unsigned __int64 *, __int64, __int64 *))qword_1820A2C58;
+  if ( !qword_1820A2C58 )
+  {
+    v8 = (void (__fastcall *)(__int64, unsigned __int64 *, __int64, __int64 *))il2cpp_resolve_icall_0(
+                                                                                 "UnityEngine.Camera::ViewportToWorldPoin"
+                                                                                 "t_Injected(System.IntPtr,UnityEngine.Ve"
+                                                                                 "ctor3&,UnityEngine.Camera/MonoOrStereos"
+                                                                                 "copicEye,UnityEngine.Vector3&)");
+    if ( !v8 )
+    {
+      v11 = sub_180279910(
+              "UnityEngine.Camera::ViewportToWorldPoint_Injected(System.IntPtr,UnityEngine.Vector3&,UnityEngine.Camera/Mo"
+              "noOrStereoscopicEye,UnityEngine.Vector3&)");
+      sub_1802776D0(v11, 0i64);
+    }
+    qword_1820A2C58 = (__int64)v8;
+  }
+  v8(v7, &v17, 2i64, &v13);
+  return _mm_unpacklo_ps((__m128)(unsigned int)v13, (__m128)HIDWORD(v13)).m128_u64[0];
+}
+
+
+
+
+6).
+Name: GetRandomEdgeSpawnPosition
+Signature: private Vector2 GetRandomEdgeSpawnPosition()
+RVA: 0x319260
+VA: 0x180319260
+IDA_EA: 0x180319260
+
+unsigned __int64 __fastcall FlashbangManager__GetRandomEdgeSpawnPosition(__int64 a1, __int64 a2)
+{
+  __int64 v3; // rbx
+  __int64 v4; // rax
+  __int64 v5; // xmm0_8
+  int v6; // eax
+  __int64 v7; // rsi
+  void (__fastcall *v8)(__int64, __int64 *, __int64, __int64 *); // rax
+  __int64 v9; // rbx
+  __int64 v10; // rax
+  __int64 v11; // xmm0_8
+  int v12; // eax
+  __int64 v13; // rsi
+  void (__fastcall *v14)(__int64, __int64 *, __int64, __int64 *); // rax
+  __int64 (__fastcall *v15)(_QWORD, __int64); // rax
+  int v16; // eax
+  __int64 v17; // rdx
+  __int64 v18; // rcx
+  int v19; // eax
+  __m128 v20; // xmm0
+  __m128 v21; // xmm6
+  __m128 v22; // xmm1
+  __m128 v23; // xmm0
+  __int64 v25; // rax
+  __int64 v26; // rax
+  __int64 v27; // rax
+  signed __int32 v28[8]; // [rsp+0h] [rbp-70h] BYREF
+  __int64 v29; // [rsp+20h] [rbp-50h] BYREF
+  int v30; // [rsp+28h] [rbp-48h]
+  __int64 v31; // [rsp+30h] [rbp-40h] BYREF
+  int v32; // [rsp+38h] [rbp-38h]
+  __int64 v33; // [rsp+40h] [rbp-30h] BYREF
+  int v34; // [rsp+48h] [rbp-28h]
+  __int64 v35; // [rsp+50h] [rbp-20h] BYREF
+  int v36; // [rsp+58h] [rbp-18h]
+
+  v3 = *(_QWORD *)(a1 + 40);
+  if ( !byte_18209C165 )
+  {
+    sub_18026DA90(&UnityEngine_Vector3_TypeInfo);
+    _InterlockedOr(v28, 0);
+    byte_18209C165 = 1;
+  }
+  v4 = *(_QWORD *)(UnityEngine_Vector3_TypeInfo + 184);
+  if ( !v3 )
+    goto LABEL_31;
+  v5 = *(_QWORD *)v4;
+  v6 = *(_DWORD *)(v4 + 8);
+  v33 = v5;
+  v34 = v6;
+  if ( !byte_1820A2B26 )
+  {
+    sub_18026DA90(&Method_UnityEngine_Object_MarshalledUnityObject_MarshalNotNull_Camera___);
+    _InterlockedOr(v28, 0);
+    byte_1820A2B26 = 1;
+  }
+  v31 = 0i64;
+  v32 = 0;
+  v7 = *(_QWORD *)(v3 + 16);
+  if ( !v7 )
+    UnityEngine_Bindings_ThrowHelper__ThrowNullReferenceException(v3, 0i64);
+  v8 = (void (__fastcall *)(__int64, __int64 *, __int64, __int64 *))qword_1820A2C58;
+  if ( !qword_1820A2C58 )
+  {
+    v8 = (void (__fastcall *)(__int64, __int64 *, __int64, __int64 *))il2cpp_resolve_icall_0(
+                                                                        "UnityEngine.Camera::ViewportToWorldPoint_Injecte"
+                                                                        "d(System.IntPtr,UnityEngine.Vector3&,UnityEngine"
+                                                                        ".Camera/MonoOrStereoscopicEye,UnityEngine.Vector3&)");
+    if ( !v8 )
+    {
+      v25 = sub_180279910(
+              "UnityEngine.Camera::ViewportToWorldPoint_Injected(System.IntPtr,UnityEngine.Vector3&,UnityEngine.Camera/Mo"
+              "noOrStereoscopicEye,UnityEngine.Vector3&)");
+      sub_1802776D0(v25, 0i64);
+    }
+    qword_1820A2C58 = (__int64)v8;
+  }
+  v8(v7, &v33, 2i64, &v31);
+  v9 = *(_QWORD *)(a1 + 40);
+  if ( !byte_18209C164 )
+  {
+    sub_18026DA90(&UnityEngine_Vector3_TypeInfo);
+    _InterlockedOr(v28, 0);
+    byte_18209C164 = 1;
+  }
+  v10 = *(_QWORD *)(UnityEngine_Vector3_TypeInfo + 184);
+  if ( !v9 )
+LABEL_31:
+    sub_18025F9D0(a1, a2);
+  v11 = *(_QWORD *)(v10 + 12);
+  v12 = *(_DWORD *)(v10 + 20);
+  v35 = v11;
+  v36 = v12;
+  if ( !byte_1820A2B26 )
+  {
+    sub_18026DA90(&Method_UnityEngine_Object_MarshalledUnityObject_MarshalNotNull_Camera___);
+    _InterlockedOr(v28, 0);
+    byte_1820A2B26 = 1;
+  }
+  v29 = 0i64;
+  v30 = 0;
+  v13 = *(_QWORD *)(v9 + 16);
+  if ( !v13 )
+    UnityEngine_Bindings_ThrowHelper__ThrowNullReferenceException(v9, 0i64);
+  v14 = (void (__fastcall *)(__int64, __int64 *, __int64, __int64 *))qword_1820A2C58;
+  if ( !qword_1820A2C58 )
+  {
+    v14 = (void (__fastcall *)(__int64, __int64 *, __int64, __int64 *))il2cpp_resolve_icall_0(
+                                                                         "UnityEngine.Camera::ViewportToWorldPoint_Inject"
+                                                                         "ed(System.IntPtr,UnityEngine.Vector3&,UnityEngi"
+                                                                         "ne.Camera/MonoOrStereoscopicEye,UnityEngine.Vector3&)");
+    if ( !v14 )
+    {
+      v26 = sub_180279910(
+              "UnityEngine.Camera::ViewportToWorldPoint_Injected(System.IntPtr,UnityEngine.Vector3&,UnityEngine.Camera/Mo"
+              "noOrStereoscopicEye,UnityEngine.Vector3&)");
+      sub_1802776D0(v26, 0i64);
+    }
+    qword_1820A2C58 = (__int64)v14;
+  }
+  v14(v13, &v35, 2i64, &v29);
+  v15 = (__int64 (__fastcall *)(_QWORD, __int64))qword_1820A3C20;
+  if ( !qword_1820A3C20 )
+  {
+    v15 = (__int64 (__fastcall *)(_QWORD, __int64))il2cpp_resolve_icall_0("UnityEngine.Random::RandomRangeInt(System.Int32,System.Int32)");
+    if ( !v15 )
+    {
+      v27 = sub_180279910("UnityEngine.Random::RandomRangeInt(System.Int32,System.Int32)");
+      sub_1802776D0(v27, 0i64);
+    }
+    qword_1820A3C20 = (__int64)v15;
+  }
+  v16 = v15(0i64, 4i64);
+  if ( !v16 )
+  {
+    v21 = (__m128)(unsigned int)v31;
+    v21.m128_f32[0] = *(float *)&v31 - *(float *)(a1 + 56);
+    goto LABEL_29;
+  }
+  v19 = v16 - 1;
+  if ( !v19 )
+  {
+    v21 = (__m128)(unsigned int)v29;
+    v21.m128_f32[0] = *(float *)&v29 + *(float *)(a1 + 56);
+LABEL_29:
+    v23 = (__m128)HIDWORD(v31);
+    *(double *)v23.m128_u64 = UnityEngine_Random__Range(v18, v17, 0i64);
+    v22 = v23;
+    return _mm_unpacklo_ps(v21, v22).m128_u64[0];
+  }
+  v20 = (__m128)(unsigned int)v31;
+  if ( v19 == 1 )
+  {
+    *(double *)v20.m128_u64 = UnityEngine_Random__Range(v18, v17, 0i64);
+    v22 = (__m128)HIDWORD(v31);
+    v21 = v20;
+    v22.m128_f32[0] = *((float *)&v31 + 1) - *(float *)(a1 + 56);
+  }
+  else
+  {
+    *(double *)v20.m128_u64 = UnityEngine_Random__Range(v18, v17, 0i64);
+    v22 = (__m128)HIDWORD(v29);
+    v21 = v20;
+    v22.m128_f32[0] = *((float *)&v29 + 1) + *(float *)(a1 + 56);
+  }
+  return _mm_unpacklo_ps(v21, v22).m128_u64[0];
+}
+
+
+
+
+7).
+Name: FlashbangManager
+Signature: public FlashbangManager()
+RVA: 0x319530
+VA: 0x180319530
+IDA_EA: 0x180319530
+
+double __fastcall FlashbangManager___ctor(__int64 a1)
+{
+  bool v1; // zf
+  double result; // xmm0_8
+  signed __int32 v3[10]; // [rsp+0h] [rbp-28h] BYREF
+
+  v1 = byte_1820A3D5A == 0;
+  *(_DWORD *)(a1 + 48) = 1090519040;
+  *(_DWORD *)(a1 + 52) = 1102053376;
+  *(_DWORD *)(a1 + 56) = 0x40000000;
+  *(_DWORD *)(a1 + 60) = 1092616192;
+  *(_DWORD *)(a1 + 64) = 1102053376;
+  *(_DWORD *)(a1 + 68) = 1084227584;
+  *(_DWORD *)(a1 + 72) = 1127481344;
+  *(_DWORD *)(a1 + 76) = 1144258560;
+  *(_DWORD *)(a1 + 80) = 3;
+  *(_BYTE *)(a1 + 84) = 1;
+  if ( v1 )
+  {
+    sub_18026DA90(&UnityEngine_Object_TypeInfo);
+    _InterlockedOr(v3, 0);
+    byte_1820A3D5A = 1;
+  }
+  if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+    result = il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+  return result;
+}
+
+
+
+

@@ -1,0 +1,2112 @@
+база
+using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks.CompilerServices;
+using Il2CppDummyDll;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+// Token: 0x02000009 RID: 9
+[Token(Token = "0x2000009")]
+public sealed class FlashbangWindowBoundsProvider : MonoBehaviour
+{
+	// Token: 0x17000002 RID: 2
+	// (get) Token: 0x0600003E RID: 62 RVA: 0x000021E6 File Offset: 0x000003E6
+	// (set) Token: 0x0600003F RID: 63 RVA: 0x00002066 File Offset: 0x00000266
+	[Token(Token = "0x17000002")]
+	public static FlashbangWindowBoundsProvider Instance
+	{
+		[Token(Token = "0x600003E")]
+		[Address(RVA = "0x31AD60", Offset = "0x319560", VA = "0x18031AD60")]
+		get
+		{
+			return null;
+		}
+		[Token(Token = "0x600003F")]
+		[Address(RVA = "0x31ADA0", Offset = "0x3195A0", VA = "0x18031ADA0")]
+		private set
+		{
+		}
+	}
+
+	// Token: 0x17000003 RID: 3
+	// (get) Token: 0x06000040 RID: 64 RVA: 0x000021E6 File Offset: 0x000003E6
+	[Token(Token = "0x17000003")]
+	public IReadOnlyList<Rect> WindowRects
+	{
+		[Token(Token = "0x6000040")]
+		[Address(RVA = "0x31AE40", Offset = "0x319640", VA = "0x18031AE40")]
+		get
+		{
+			return null;
+		}
+	}
+
+	// Token: 0x06000041 RID: 65 RVA: 0x000021E6 File Offset: 0x000003E6
+	[Token(Token = "0x6000041")]
+	[Address(RVA = "0x31AE50", Offset = "0x319650", VA = "0x18031AE50")]
+	public static FlashbangWindowBoundsProvider Ensure(Camera camera)
+	{
+		return null;
+	}
+
+	// Token: 0x06000042 RID: 66 RVA: 0x00002066 File Offset: 0x00000266
+	[Token(Token = "0x6000042")]
+	[Address(RVA = "0x31B200", Offset = "0x319A00", VA = "0x18031B200")]
+	private void Awake()
+	{
+	}
+
+	// Token: 0x06000043 RID: 67 RVA: 0x00002066 File Offset: 0x00000266
+	[Token(Token = "0x6000043")]
+	[Address(RVA = "0x31B5A0", Offset = "0x319DA0", VA = "0x18031B5A0")]
+	private void OnDestroy()
+	{
+	}
+
+	// Token: 0x06000044 RID: 68 RVA: 0x00002066 File Offset: 0x00000266
+	[Token(Token = "0x6000044")]
+	[Address(RVA = "0x31B6F0", Offset = "0x319EF0", VA = "0x18031B6F0")]
+	private void Start()
+	{
+	}
+
+	// Token: 0x06000045 RID: 69 RVA: 0x000021EC File Offset: 0x000003EC
+	[Token(Token = "0x6000045")]
+	[Address(RVA = "0x31B890", Offset = "0x31A090", VA = "0x18031B890")]
+	private UniTaskVoid RefreshLoopAsync(CancellationToken cancellationToken)
+	{
+		return default(UniTaskVoid);
+	}
+
+	// Token: 0x06000046 RID: 70 RVA: 0x00002066 File Offset: 0x00000266
+	[Token(Token = "0x6000046")]
+	[Address(RVA = "0x31BA20", Offset = "0x31A220", VA = "0x18031BA20")]
+	public void Refresh()
+	{
+	}
+
+	// Token: 0x06000047 RID: 71
+	[Token(Token = "0x6000047")]
+	[Address(RVA = "0x31BE10", Offset = "0x31A610", VA = "0x18031BE10")]
+	[PreserveSig]
+	private static extern bool EnumWindows(FlashbangWindowBoundsProvider.EnumWindowsProc enumProc, IntPtr lParam);
+
+	// Token: 0x06000048 RID: 72
+	[Token(Token = "0x6000048")]
+	[Address(RVA = "0x31BEB0", Offset = "0x31A6B0", VA = "0x18031BEB0")]
+	[PreserveSig]
+	private static extern bool IsWindowVisible(IntPtr hWnd);
+
+	// Token: 0x06000049 RID: 73
+	[Token(Token = "0x6000049")]
+	[Address(RVA = "0x31BF30", Offset = "0x31A730", VA = "0x18031BF30")]
+	[PreserveSig]
+	private static extern bool IsIconic(IntPtr hWnd);
+
+	// Token: 0x0600004A RID: 74
+	[Token(Token = "0x600004A")]
+	[Address(RVA = "0x31BFB0", Offset = "0x31A7B0", VA = "0x18031BFB0")]
+	[PreserveSig]
+	private static extern bool GetWindowRect(IntPtr hWnd, out FlashbangWindowBoundsProvider.RECT rect);
+
+	// Token: 0x0600004B RID: 75
+	[Token(Token = "0x600004B")]
+	[Address(RVA = "0x31C040", Offset = "0x31A840", VA = "0x18031C040")]
+	[PreserveSig]
+	private static extern bool GetClientRect(IntPtr hWnd, out FlashbangWindowBoundsProvider.RECT rect);
+
+	// Token: 0x0600004C RID: 76
+	[Token(Token = "0x600004C")]
+	[Address(RVA = "0x31C0D0", Offset = "0x31A8D0", VA = "0x18031C0D0")]
+	[PreserveSig]
+	private static extern bool ClientToScreen(IntPtr hWnd, ref FlashbangWindowBoundsProvider.POINT point);
+
+	// Token: 0x0600004D RID: 77
+	[Token(Token = "0x600004D")]
+	[Address(RVA = "0x31C160", Offset = "0x31A960", VA = "0x18031C160")]
+	[PreserveSig]
+	private static extern IntPtr GetShellWindow();
+
+	// Token: 0x0600004E RID: 78
+	[Token(Token = "0x600004E")]
+	[Address(RVA = "0x31C1D0", Offset = "0x31A9D0", VA = "0x18031C1D0")]
+	[PreserveSig]
+	private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
+
+	// Token: 0x0600004F RID: 79
+	[Token(Token = "0x600004F")]
+	[Address(RVA = "0x31C260", Offset = "0x31AA60", VA = "0x18031C260")]
+	[PreserveSig]
+	private static extern int DwmGetWindowAttribute(IntPtr hWnd, int dwAttribute, out FlashbangWindowBoundsProvider.RECT pvAttribute, int cbAttribute);
+
+	// Token: 0x06000050 RID: 80
+	[Token(Token = "0x6000050")]
+	[Address(RVA = "0x31C300", Offset = "0x31AB00", VA = "0x18031C300")]
+	[PreserveSig]
+	private static extern int DwmGetWindowAttribute(IntPtr hWnd, int dwAttribute, out int pvAttribute, int cbAttribute);
+
+	// Token: 0x06000051 RID: 81 RVA: 0x00002066 File Offset: 0x00000266
+	[Token(Token = "0x6000051")]
+	[Address(RVA = "0x31C3A0", Offset = "0x31ABA0", VA = "0x18031C3A0")]
+	private void CollectWindows(List<Rect> output)
+	{
+	}
+
+	// Token: 0x06000052 RID: 82 RVA: 0x00002204 File Offset: 0x00000404
+	[Token(Token = "0x6000052")]
+	[Address(RVA = "0x31C580", Offset = "0x31AD80", VA = "0x18031C580")]
+	private bool TryGetUnityClientRect(out FlashbangWindowBoundsProvider.RECT clientRect)
+	{
+		return default(bool);
+	}
+
+	// Token: 0x06000053 RID: 83 RVA: 0x0000221C File Offset: 0x0000041C
+	[Token(Token = "0x6000053")]
+	[Address(RVA = "0x31C8C0", Offset = "0x31B0C0", VA = "0x18031C8C0")]
+	private IntPtr FindCurrentProcessWindow()
+	{
+		return 0;
+	}
+
+	// Token: 0x06000054 RID: 84 RVA: 0x00002234 File Offset: 0x00000434
+	[Token(Token = "0x6000054")]
+	[Address(RVA = "0x31C9C0", Offset = "0x31B1C0", VA = "0x18031C9C0")]
+	private static bool TryGetVisibleWindowRect(IntPtr hWnd, out FlashbangWindowBoundsProvider.RECT rect)
+	{
+		return default(bool);
+	}
+
+	// Token: 0x06000055 RID: 85 RVA: 0x0000224C File Offset: 0x0000044C
+	[Token(Token = "0x6000055")]
+	[Address(RVA = "0x31CBD0", Offset = "0x31B3D0", VA = "0x18031CBD0")]
+	private static bool IsCloaked(IntPtr hWnd)
+	{
+		return default(bool);
+	}
+
+	// Token: 0x06000056 RID: 86 RVA: 0x00002264 File Offset: 0x00000464
+	[Token(Token = "0x6000056")]
+	[Address(RVA = "0x31CC70", Offset = "0x31B470", VA = "0x18031CC70")]
+	private static bool TryIntersect(FlashbangWindowBoundsProvider.RECT a, FlashbangWindowBoundsProvider.RECT b, out FlashbangWindowBoundsProvider.RECT intersection)
+	{
+		return default(bool);
+	}
+
+	// Token: 0x06000057 RID: 87 RVA: 0x0000227C File Offset: 0x0000047C
+	[Token(Token = "0x6000057")]
+	[Address(RVA = "0x31CD30", Offset = "0x31B530", VA = "0x18031CD30")]
+	private Rect? ConvertDesktopRectToWorld(FlashbangWindowBoundsProvider.RECT rect, FlashbangWindowBoundsProvider.RECT unityClientRect)
+	{
+		return null;
+	}
+
+	// Token: 0x06000058 RID: 88 RVA: 0x00002066 File Offset: 0x00000266
+	[Token(Token = "0x6000058")]
+	[Address(RVA = "0x31D1F0", Offset = "0x31B9F0", VA = "0x18031D1F0")]
+	public FlashbangWindowBoundsProvider()
+	{
+	}
+
+	// Token: 0x0400006F RID: 111
+	[Token(Token = "0x400006F")]
+	[Il2CppDummyDll.FieldOffset(Offset = "0x0")]
+	private static FlashbangWindowBoundsProvider <Instance>k__BackingField;
+
+	// Token: 0x04000070 RID: 112
+	[Token(Token = "0x4000070")]
+	[Il2CppDummyDll.FieldOffset(Offset = "0x20")]
+	private Camera worldCamera;
+
+	// Token: 0x04000071 RID: 113
+	[Token(Token = "0x4000071")]
+	[Il2CppDummyDll.FieldOffset(Offset = "0x28")]
+	private float refreshIntervalSeconds;
+
+	// Token: 0x04000072 RID: 114
+	[Token(Token = "0x4000072")]
+	[Il2CppDummyDll.FieldOffset(Offset = "0x2C")]
+	private int minWindowPixelSize;
+
+	// Token: 0x04000073 RID: 115
+	[Token(Token = "0x4000073")]
+	[Il2CppDummyDll.FieldOffset(Offset = "0x30")]
+	private readonly List<Rect> windowRects;
+
+	// Token: 0x04000074 RID: 116
+	[Token(Token = "0x4000074")]
+	[Il2CppDummyDll.FieldOffset(Offset = "0x38")]
+	private readonly List<Rect> scratchRects;
+
+	// Token: 0x04000075 RID: 117
+	[Token(Token = "0x4000075")]
+	[Il2CppDummyDll.FieldOffset(Offset = "0x40")]
+	private int currentProcessId;
+
+	// Token: 0x04000076 RID: 118
+	[Token(Token = "0x4000076")]
+	private const int DwmwaExtendedFrameBounds = 9;
+
+	// Token: 0x04000077 RID: 119
+	[Token(Token = "0x4000077")]
+	private const int DwmwaCloaked = 14;
+
+	// Token: 0x0200000A RID: 10
+	// (Invoke) Token: 0x0600005A RID: 90
+	[Token(Token = "0x200000A")]
+	private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+
+	// Token: 0x0200000B RID: 11
+	[Token(Token = "0x200000B")]
+	private struct RECT
+	{
+		// Token: 0x04000078 RID: 120
+		[Token(Token = "0x4000078")]
+		[Il2CppDummyDll.FieldOffset(Offset = "0x0")]
+		public int left;
+
+		// Token: 0x04000079 RID: 121
+		[Token(Token = "0x4000079")]
+		[Il2CppDummyDll.FieldOffset(Offset = "0x4")]
+		public int top;
+
+		// Token: 0x0400007A RID: 122
+		[Token(Token = "0x400007A")]
+		[Il2CppDummyDll.FieldOffset(Offset = "0x8")]
+		public int right;
+
+		// Token: 0x0400007B RID: 123
+		[Token(Token = "0x400007B")]
+		[Il2CppDummyDll.FieldOffset(Offset = "0xC")]
+		public int bottom;
+	}
+
+	// Token: 0x0200000C RID: 12
+	[Token(Token = "0x200000C")]
+	private struct POINT
+	{
+		// Token: 0x0400007C RID: 124
+		[Token(Token = "0x400007C")]
+		[Il2CppDummyDll.FieldOffset(Offset = "0x0")]
+		public int x;
+
+		// Token: 0x0400007D RID: 125
+		[Token(Token = "0x400007D")]
+		[Il2CppDummyDll.FieldOffset(Offset = "0x4")]
+		public int y;
+	}
+
+	// Token: 0x0200000D RID: 13
+	[Token(Token = "0x200000D")]
+	private sealed class <>c__DisplayClass33_0
+	{
+		// Token: 0x0600005B RID: 91 RVA: 0x00002066 File Offset: 0x00000266
+		[Token(Token = "0x600005B")]
+		[Address(RVA = "0x318320", Offset = "0x316B20", VA = "0x180318320")]
+		public <>c__DisplayClass33_0()
+		{
+		}
+
+		// Token: 0x0600005C RID: 92 RVA: 0x00002294 File Offset: 0x00000494
+		[Token(Token = "0x600005C")]
+		[Address(RVA = "0x31D440", Offset = "0x31BC40", VA = "0x18031D440")]
+		internal bool <CollectWindows>b__0(IntPtr hWnd, IntPtr _)
+		{
+			return default(bool);
+		}
+
+		// Token: 0x0400007E RID: 126
+		[Token(Token = "0x400007E")]
+		[Il2CppDummyDll.FieldOffset(Offset = "0x10")]
+		public IntPtr shellWindow;
+
+		// Token: 0x0400007F RID: 127
+		[Token(Token = "0x400007F")]
+		[Il2CppDummyDll.FieldOffset(Offset = "0x18")]
+		public FlashbangWindowBoundsProvider <>4__this;
+
+		// Token: 0x04000080 RID: 128
+		[Token(Token = "0x4000080")]
+		[Il2CppDummyDll.FieldOffset(Offset = "0x20")]
+		public FlashbangWindowBoundsProvider.RECT unityClientRect;
+
+		// Token: 0x04000081 RID: 129
+		[Token(Token = "0x4000081")]
+		[Il2CppDummyDll.FieldOffset(Offset = "0x30")]
+		public List<Rect> output;
+	}
+
+	// Token: 0x0200000E RID: 14
+	[Token(Token = "0x200000E")]
+	private sealed class <>c__DisplayClass35_0
+	{
+		// Token: 0x0600005D RID: 93 RVA: 0x00002066 File Offset: 0x00000266
+		[Token(Token = "0x600005D")]
+		[Address(RVA = "0x318320", Offset = "0x316B20", VA = "0x180318320")]
+		public <>c__DisplayClass35_0()
+		{
+		}
+
+		// Token: 0x0600005E RID: 94 RVA: 0x000022AC File Offset: 0x000004AC
+		[Token(Token = "0x600005E")]
+		[Address(RVA = "0x31D7C0", Offset = "0x31BFC0", VA = "0x18031D7C0")]
+		internal bool <FindCurrentProcessWindow>b__0(IntPtr hWnd, IntPtr _)
+		{
+			return default(bool);
+		}
+
+		// Token: 0x04000082 RID: 130
+		[Token(Token = "0x4000082")]
+		[Il2CppDummyDll.FieldOffset(Offset = "0x10")]
+		public FlashbangWindowBoundsProvider <>4__this;
+
+		// Token: 0x04000083 RID: 131
+		[Token(Token = "0x4000083")]
+		[Il2CppDummyDll.FieldOffset(Offset = "0x18")]
+		public IntPtr result;
+	}
+
+	// Token: 0x0200000F RID: 15
+	[Token(Token = "0x200000F")]
+	[StructLayout(3)]
+	private struct <RefreshLoopAsync>d__16 : IEquatable<BackgroundPosition>
+	{
+		// Token: 0x0600005F RID: 95 RVA: 0x00002066 File Offset: 0x00000266
+		[Token(Token = "0x600005F")]
+		[Address(RVA = "0x31D890", Offset = "0x31C090", VA = "0x18031D890", Slot = "4")]
+		private void MoveNext()
+		{
+		}
+
+		// Token: 0x06000060 RID: 96 RVA: 0x00002066 File Offset: 0x00000266
+		[Token(Token = "0x6000060")]
+		[Address(RVA = "0x318320", Offset = "0x316B20", VA = "0x180318320", Slot = "5")]
+		private void SetStateMachine(IAsyncStateMachine stateMachine)
+		{
+		}
+
+		// Token: 0x04000084 RID: 132
+		[Token(Token = "0x4000084")]
+		[Il2CppDummyDll.FieldOffset(Offset = "0x0")]
+		public int <>1__state;
+
+		// Token: 0x04000085 RID: 133
+		[Token(Token = "0x4000085")]
+		[Il2CppDummyDll.FieldOffset(Offset = "0x8")]
+		public AsyncUniTaskVoidMethodBuilder <>t__builder;
+
+		// Token: 0x04000086 RID: 134
+		[Token(Token = "0x4000086")]
+		[Il2CppDummyDll.FieldOffset(Offset = "0x10")]
+		public FlashbangWindowBoundsProvider <>4__this;
+
+		// Token: 0x04000087 RID: 135
+		[Token(Token = "0x4000087")]
+		[Il2CppDummyDll.FieldOffset(Offset = "0x18")]
+		public CancellationToken cancellationToken;
+
+		// Token: 0x04000088 RID: 136
+		[Token(Token = "0x4000088")]
+		[Il2CppDummyDll.FieldOffset(Offset = "0x20")]
+		private UniTask.Awaiter <>u__1;
+	}
+}
+
+
+ImageBase: 0x180000000
+Methods found: 18
+
+1).
+Name: Ensure
+Signature: public static FlashbangWindowBoundsProvider Ensure(Camera camera)
+RVA: 0x31AD60
+VA: 0x18031AD60
+IDA_EA: 0x18031AD60
+-
+__int64 FlashbangWindowBoundsProvider__get_Instance()
+{
+  signed __int32 v1[10]; // [rsp+0h] [rbp-28h] BYREF
+
+  if ( !byte_18209DD98 )
+  {
+    sub_18026DA90(&FlashbangWindowBoundsProvider_TypeInfo);
+    _InterlockedOr(v1, 0);
+    byte_18209DD98 = 1;
+  }
+  return **(_QWORD **)(FlashbangWindowBoundsProvider_TypeInfo + 184);
+}
+
+
+-
+
+2).
+Name: Awake
+Signature: private void Awake()
+RVA: 0x31B200
+VA: 0x18031B200
+IDA_EA: 0x18031B200
+-
+void __fastcall FlashbangWindowBoundsProvider__Awake(__int64 a1, __int64 a2)
+{
+  __int64 v3; // rdi
+  __int64 v4; // rdi
+  int v5; // eax
+  bool v6; // zf
+  __int64 v7; // rcx
+  __int64 v8; // rdx
+  __int64 v9; // rbx
+  __int64 v10; // rax
+  __int64 v11; // rdi
+  int v12; // eax
+  __int64 v13; // rdi
+  __int64 v14; // rax
+  unsigned int v15; // ebx
+  unsigned __int64 v16; // rdx
+  char v17; // bl
+  signed __int64 v18; // rtt
+  signed __int32 v19[10]; // [rsp+0h] [rbp-28h] BYREF
+
+  if ( !byte_18209DD9B )
+  {
+    sub_18026DA90(&UnityEngine_Object_TypeInfo);
+    _InterlockedOr(v19, 0);
+    byte_18209DD9B = 1;
+  }
+  if ( !byte_18209DE38 )
+  {
+    sub_18026DA90(&FlashbangWindowBoundsProvider_TypeInfo);
+    _InterlockedOr(v19, 0);
+    byte_18209DE38 = 1;
+  }
+  v3 = **(_QWORD **)(FlashbangWindowBoundsProvider_TypeInfo + 184);
+  if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+    il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+  if ( !byte_1820A3F66 )
+  {
+    sub_18026DA90(&UnityEngine_Object_TypeInfo);
+    _InterlockedOr(v19, 0);
+    byte_1820A3F66 = 1;
+  }
+  if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+    il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+  if ( !byte_1820A3F49 )
+  {
+    sub_18026DA90(&UnityEngine_Object_TypeInfo);
+    _InterlockedOr(v19, 0);
+    byte_1820A3F49 = 1;
+  }
+  if ( v3 )
+  {
+    if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+      il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+    if ( *(_QWORD *)(v3 + 16) )
+    {
+      if ( !byte_18209DE38 )
+      {
+        sub_18026DA90(&FlashbangWindowBoundsProvider_TypeInfo);
+        _InterlockedOr(v19, 0);
+        byte_18209DE38 = 1;
+      }
+      v4 = **(_QWORD **)(FlashbangWindowBoundsProvider_TypeInfo + 184);
+      if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+        il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+      if ( !byte_1820A3F66 )
+      {
+        sub_18026DA90(&UnityEngine_Object_TypeInfo);
+        _InterlockedOr(v19, 0);
+        byte_1820A3F66 = 1;
+      }
+      if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+        il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+      if ( !byte_1820A3F49 )
+      {
+        sub_18026DA90(&UnityEngine_Object_TypeInfo);
+        _InterlockedOr(v19, 0);
+        byte_1820A3F49 = 1;
+      }
+      if ( v4 != 0 || a1 != 0 )
+      {
+        if ( a1 )
+        {
+          if ( v4 )
+          {
+            v5 = 0;
+            v6 = v4 == a1;
+          }
+          else
+          {
+            if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+              il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+            v5 = 0;
+            v6 = *(_QWORD *)(a1 + 16) == 0i64;
+          }
+        }
+        else
+        {
+          v7 = UnityEngine_Object_TypeInfo;
+          if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+            il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+          if ( !v4 )
+LABEL_64:
+            sub_18025F9D0(v7, a2);
+          v5 = 0;
+          v6 = *(_QWORD *)(v4 + 16) == 0i64;
+        }
+        LOBYTE(v5) = v6;
+        if ( !v5 )
+        {
+          v9 = UnityEngine_Component__get_gameObject(a1, 0i64);
+          if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+            il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+          if ( !byte_1820A3F4E )
+          {
+            sub_18026DA90(&UnityEngine_Object_TypeInfo);
+            _InterlockedOr(v19, 0);
+            byte_1820A3F4E = 1;
+          }
+          if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+            il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+          UnityEngine_Object__Destroy(v9, v8, 0i64);
+          return;
+        }
+      }
+    }
+  }
+  sub_180322A00(a1);
+  v10 = System_Diagnostics_Process__GetCurrentProcess(0i64);
+  v11 = v10;
+  if ( !v10 )
+    goto LABEL_64;
+  System_Diagnostics_Process__EnsureState(v10, 1i64, 0i64);
+  v12 = *(_DWORD *)(v11 + 44);
+  v13 = *(_QWORD *)(a1 + 32);
+  *(_DWORD *)(a1 + 64) = v12;
+  if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+    il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+  if ( !byte_1820A3F65 )
+  {
+    sub_18026DA90(&UnityEngine_Object_TypeInfo);
+    _InterlockedOr(v19, 0);
+    byte_1820A3F65 = 1;
+  }
+  if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+    il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+  if ( !byte_1820A3F49 )
+  {
+    sub_18026DA90(&UnityEngine_Object_TypeInfo);
+    _InterlockedOr(v19, 0);
+    byte_1820A3F49 = 1;
+  }
+  if ( !v13 )
+    goto LABEL_60;
+  if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+    il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+  if ( !*(_QWORD *)(v13 + 16) )
+  {
+LABEL_60:
+    v14 = UnityEngine_Camera__get_main(0i64);
+    v6 = dword_18209DC58 == 0;
+    *(_QWORD *)(a1 + 32) = v14;
+    if ( !v6 )
+    {
+      v15 = ((unsigned __int64)(a1 + 32) >> 12) & 0x1FFFFF;
+      v16 = (unsigned __int64)v15 >> 6;
+      v17 = v15 & 0x3F;
+      _m_prefetchw(&qword_1820EE420[v16]);
+      do
+        v18 = qword_1820EE420[v16];
+      while ( v18 != _InterlockedCompareExchange64(&qword_1820EE420[v16], v18 | (1i64 << v17), v18) );
+    }
+  }
+}
+
+
+-
+
+3).
+Name: OnDestroy
+Signature: private void OnDestroy()
+RVA: 0x31B5A0
+VA: 0x18031B5A0
+IDA_EA: 0x18031B5A0
+-
+char __fastcall FlashbangWindowBoundsProvider__OnDestroy(__int64 a1, __int64 a2)
+{
+  __int64 v3; // rbx
+  bool v4; // zf
+  __int64 v5; // rcx
+  char result; // al
+  signed __int32 v7[10]; // [rsp+0h] [rbp-28h] BYREF
+
+  if ( !byte_18209DD9C )
+  {
+    sub_18026DA90(&UnityEngine_Object_TypeInfo);
+    _InterlockedOr(v7, 0);
+    byte_18209DD9C = 1;
+  }
+  if ( !byte_18209DE38 )
+  {
+    sub_18026DA90(&FlashbangWindowBoundsProvider_TypeInfo);
+    _InterlockedOr(v7, 0);
+    byte_18209DE38 = 1;
+  }
+  v3 = **(_QWORD **)(FlashbangWindowBoundsProvider_TypeInfo + 184);
+  if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+    il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+  if ( !byte_1820A3F65 )
+  {
+    sub_18026DA90(&UnityEngine_Object_TypeInfo);
+    _InterlockedOr(v7, 0);
+    byte_1820A3F65 = 1;
+  }
+  if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+    il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+  if ( !byte_1820A3F49 )
+  {
+    sub_18026DA90(&UnityEngine_Object_TypeInfo);
+    _InterlockedOr(v7, 0);
+    byte_1820A3F49 = 1;
+  }
+  if ( v3 == 0 && a1 == 0 )
+    return sub_180322A00(0i64);
+  if ( a1 )
+  {
+    if ( v3 )
+    {
+      v4 = v3 == a1;
+    }
+    else
+    {
+      if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+        il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+      v4 = *(_QWORD *)(a1 + 16) == 0i64;
+    }
+  }
+  else
+  {
+    v5 = UnityEngine_Object_TypeInfo;
+    if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+      il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+    if ( !v3 )
+      sub_18025F9D0(v5, a2);
+    v4 = *(_QWORD *)(v3 + 16) == 0i64;
+  }
+  result = v4;
+  if ( v4 )
+    return sub_180322A00(0i64);
+  return result;
+}
+
+
+-
+
+4).
+Name: Start
+Signature: private void Start()
+RVA: 0x31B6F0
+VA: 0x18031B6F0
+IDA_EA: 0x18031B6F0
+-
+__int64 __fastcall FlashbangWindowBoundsProvider__Start(__int64 a1, __int64 a2)
+{
+  __int64 *v3; // rdx
+  __int64 v4; // rbx
+  unsigned __int64 v5; // r8
+  int v6; // eax
+  signed __int64 v7; // rtt
+  signed __int64 v8; // rtt
+  signed __int64 v9; // rtt
+  __int64 v10; // rbx
+  signed __int32 v12[8]; // [rsp+0h] [rbp-58h] BYREF
+  __int64 v13; // [rsp+20h] [rbp-38h] BYREF
+  __int64 v14; // [rsp+28h] [rbp-30h] BYREF
+  __int64 v15; // [rsp+30h] [rbp-28h] BYREF
+  __int64 v16; // [rsp+38h] [rbp-20h] BYREF
+  __int128 v17; // [rsp+40h] [rbp-18h]
+
+  if ( !a1 )
+    sub_18025F9D0(0i64, a2);
+  v4 = UnityEngine_MonoBehaviour__get_destroyCancellationToken(a1, 0i64);
+  if ( !byte_18209DD9D )
+  {
+    sub_18026DA90(&Method_Cysharp_Threading_Tasks_CompilerServices_AsyncUniTaskVoidMethodBuilder_Start_FlashbangWindowBoundsProvider__RefreshLoopAsync_d__16___);
+    _InterlockedOr(v12, 0);
+    byte_18209DD9D = 1;
+  }
+  v13 = 0i64;
+  v15 = 0i64;
+  v16 = 0i64;
+  v14 = 0i64;
+  v6 = dword_18209DC58;
+  v17 = 0i64;
+  if ( dword_18209DC58 )
+  {
+    v5 = ((unsigned __int64)&v14 >> 12) & 0x3F;
+    v3 = &qword_1820A8140[(((unsigned __int64)&v14 >> 12) & 0x1FFFFF) >> 6];
+    _m_prefetchw(v3 + 35932);
+    do
+      v7 = v3[35932];
+    while ( v7 != _InterlockedCompareExchange64(v3 + 35932, v7 | (1i64 << v5), v7) );
+    v6 = dword_18209DC58;
+  }
+  v15 = a1;
+  if ( v6 )
+  {
+    v5 = ((unsigned __int64)&v15 >> 12) & 0x3F;
+    v3 = &qword_1820A8140[(((unsigned __int64)&v15 >> 12) & 0x1FFFFF) >> 6];
+    _m_prefetchw(v3 + 35932);
+    do
+      v8 = v3[35932];
+    while ( v8 != _InterlockedCompareExchange64(v3 + 35932, v8 | (1i64 << v5), v8) );
+    v6 = dword_18209DC58;
+  }
+  v16 = v4;
+  if ( v6 )
+  {
+    v5 = ((unsigned __int64)&v16 >> 12) & 0x3F;
+    v3 = &qword_1820A8140[(((unsigned __int64)&v16 >> 12) & 0x1FFFFF) >> 6];
+    _m_prefetchw(v3 + 35932);
+    do
+      v9 = v3[35932];
+    while ( v9 != _InterlockedCompareExchange64(v3 + 35932, v9 | (1i64 << v5), v9) );
+  }
+  v10 = Method_Cysharp_Threading_Tasks_CompilerServices_AsyncUniTaskVoidMethodBuilder_Start_FlashbangWindowBoundsProvider__RefreshLoopAsync_d__16___;
+  LODWORD(v13) = -1;
+  if ( !*(_QWORD *)(Method_Cysharp_Threading_Tasks_CompilerServices_AsyncUniTaskVoidMethodBuilder_Start_FlashbangWindowBoundsProvider__RefreshLoopAsync_d__16___
+                  + 56) )
+    sub_18025CA20(
+      Method_Cysharp_Threading_Tasks_CompilerServices_AsyncUniTaskVoidMethodBuilder_Start_FlashbangWindowBoundsProvider__RefreshLoopAsync_d__16___,
+      v3,
+      v5,
+      qword_1820A8140,
+      v13,
+      v14,
+      v15,
+      v16,
+      v17,
+      *((_QWORD *)&v17 + 1));
+  return FlashbangWindowBoundsProvider__RefreshLoopAsync_d__16__MoveNext(
+           (__int64)&v13,
+           *(_QWORD *)(*(_QWORD *)(v10 + 56) + 16i64));
+}
+
+
+-
+
+5).
+Name: RefreshLoopAsync
+Signature: private UniTaskVoid RefreshLoopAsync(CancellationToken cancellationToken)
+RVA: 0x31B890
+VA: 0x18031B890
+IDA_EA: 0x18031B890
+-
+char __fastcall FlashbangWindowBoundsProvider__RefreshLoopAsync(__int64 a1, __int64 *a2, unsigned __int64 a3)
+{
+  __int64 v3; // rbx
+  int v5; // eax
+  signed __int64 v6; // rtt
+  signed __int64 v7; // rtt
+  signed __int64 v8; // rtt
+  __int64 v9; // rbx
+  signed __int32 v11[8]; // [rsp+0h] [rbp-58h] BYREF
+  __int64 v12; // [rsp+20h] [rbp-38h] BYREF
+  __int64 v13; // [rsp+28h] [rbp-30h] BYREF
+  __int64 v14; // [rsp+30h] [rbp-28h] BYREF
+  __int64 v15; // [rsp+38h] [rbp-20h] BYREF
+  __int128 v16; // [rsp+40h] [rbp-18h]
+
+  v3 = (__int64)a2;
+  if ( !byte_18209DD9D )
+  {
+    sub_18026DA90(&Method_Cysharp_Threading_Tasks_CompilerServices_AsyncUniTaskVoidMethodBuilder_Start_FlashbangWindowBoundsProvider__RefreshLoopAsync_d__16___);
+    _InterlockedOr(v11, 0);
+    byte_18209DD9D = 1;
+  }
+  v12 = 0i64;
+  v14 = 0i64;
+  v15 = 0i64;
+  v13 = 0i64;
+  v5 = dword_18209DC58;
+  v16 = 0i64;
+  if ( dword_18209DC58 )
+  {
+    a3 = ((unsigned __int64)&v13 >> 12) & 0x3F;
+    a2 = &qword_1820A8140[(((unsigned __int64)&v13 >> 12) & 0x1FFFFF) >> 6];
+    _m_prefetchw(a2 + 35932);
+    do
+      v6 = a2[35932];
+    while ( v6 != _InterlockedCompareExchange64(a2 + 35932, v6 | (1i64 << a3), v6) );
+    v5 = dword_18209DC58;
+  }
+  v14 = a1;
+  if ( v5 )
+  {
+    a3 = ((unsigned __int64)&v14 >> 12) & 0x3F;
+    a2 = &qword_1820A8140[(((unsigned __int64)&v14 >> 12) & 0x1FFFFF) >> 6];
+    _m_prefetchw(a2 + 35932);
+    do
+      v7 = a2[35932];
+    while ( v7 != _InterlockedCompareExchange64(a2 + 35932, v7 | (1i64 << a3), v7) );
+    v5 = dword_18209DC58;
+  }
+  v15 = v3;
+  if ( v5 )
+  {
+    a3 = ((unsigned __int64)&v15 >> 12) & 0x3F;
+    a2 = &qword_1820A8140[(((unsigned __int64)&v15 >> 12) & 0x1FFFFF) >> 6];
+    _m_prefetchw(a2 + 35932);
+    do
+      v8 = a2[35932];
+    while ( v8 != _InterlockedCompareExchange64(a2 + 35932, v8 | (1i64 << a3), v8) );
+  }
+  v9 = Method_Cysharp_Threading_Tasks_CompilerServices_AsyncUniTaskVoidMethodBuilder_Start_FlashbangWindowBoundsProvider__RefreshLoopAsync_d__16___;
+  LODWORD(v12) = -1;
+  if ( !*(_QWORD *)(Method_Cysharp_Threading_Tasks_CompilerServices_AsyncUniTaskVoidMethodBuilder_Start_FlashbangWindowBoundsProvider__RefreshLoopAsync_d__16___
+                  + 56) )
+    sub_18025CA20(
+      Method_Cysharp_Threading_Tasks_CompilerServices_AsyncUniTaskVoidMethodBuilder_Start_FlashbangWindowBoundsProvider__RefreshLoopAsync_d__16___,
+      a2,
+      a3,
+      qword_1820A8140,
+      v12,
+      v13,
+      v14,
+      v15,
+      v16,
+      *((_QWORD *)&v16 + 1));
+  FlashbangWindowBoundsProvider__RefreshLoopAsync_d__16__MoveNext(
+    (__int64)&v12,
+    *(_QWORD *)(*(_QWORD *)(v9 + 56) + 16i64));
+  return 0;
+}
+
+
+-
+
+6).
+Name: Refresh
+Signature: public void Refresh()
+RVA: 0x31BA20
+VA: 0x18031BA20
+IDA_EA: 0x18031BA20
+-
+__int64 __fastcall FlashbangWindowBoundsProvider__Refresh(_QWORD *a1, __int64 *a2)
+{
+  __int64 v3; // rcx
+  __int64 v4; // rbx
+  __int64 v5; // rax
+  bool v6; // zf
+  signed __int64 v7; // rtt
+  __int64 v8; // rbx
+  __int64 v9; // rbx
+  __int64 v10; // rax
+  __int64 v11; // rsi
+  int v12; // eax
+  __int64 *v13; // rdx
+  signed __int64 v14; // rtt
+  __int64 *v15; // rdx
+  signed __int64 v16; // rtt
+  __int64 (*v17)(void); // rax
+  __int64 v18; // rbx
+  signed __int32 v20[8]; // [rsp+0h] [rbp-58h] BYREF
+  __int64 v21[4]; // [rsp+20h] [rbp-38h] BYREF
+  int v22; // [rsp+40h] [rbp-18h]
+  __int64 v23; // [rsp+44h] [rbp-14h]
+  char v24; // [rsp+4Ch] [rbp-Ch]
+
+  if ( !byte_18209DD9E )
+  {
+    sub_18026DA90(&Method_System_Collections_Generic_List_Rect__AddRange__);
+    _InterlockedOr(v20, 0);
+    sub_18026DA90(&Method_System_Collections_Generic_List_Rect__Clear__);
+    _InterlockedOr(v20, 0);
+    sub_18026DA90(&UnityEngine_Object_TypeInfo);
+    _InterlockedOr(v20, 0);
+    byte_18209DD9E = 1;
+  }
+  v3 = a1[7];
+  if ( !v3 )
+    goto LABEL_48;
+  ++*(_DWORD *)(v3 + 28);
+  *(_DWORD *)(v3 + 24) = 0;
+  v4 = a1[4];
+  if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+    il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+  if ( !byte_1820A3F65 )
+  {
+    sub_18026DA90(&UnityEngine_Object_TypeInfo);
+    _InterlockedOr(v20, 0);
+    byte_1820A3F65 = 1;
+  }
+  if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+    il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+  if ( !byte_1820A3F49 )
+  {
+    sub_18026DA90(&UnityEngine_Object_TypeInfo);
+    _InterlockedOr(v20, 0);
+    byte_1820A3F49 = 1;
+  }
+  if ( !v4 )
+    goto LABEL_16;
+  if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+    il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+  if ( !*(_QWORD *)(v4 + 16) )
+  {
+LABEL_16:
+    v5 = UnityEngine_Camera__get_main(0i64);
+    v6 = dword_18209DC58 == 0;
+    a1[4] = v5;
+    if ( !v6 )
+    {
+      a2 = &qword_1820A8140[(((unsigned __int64)(a1 + 4) >> 12) & 0x1FFFFF) >> 6];
+      _m_prefetchw(a2 + 35932);
+      do
+        v7 = a2[35932];
+      while ( v7 != _InterlockedCompareExchange64(
+                      a2 + 35932,
+                      v7 | (1i64 << (((unsigned __int64)(a1 + 4) >> 12) & 0x3F)),
+                      v7) );
+    }
+  }
+  v8 = a1[4];
+  if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+    il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+  if ( !byte_1820A3F66 )
+  {
+    sub_18026DA90(&UnityEngine_Object_TypeInfo);
+    _InterlockedOr(v20, 0);
+    byte_1820A3F66 = 1;
+  }
+  if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+    il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+  if ( !byte_1820A3F49 )
+  {
+    sub_18026DA90(&UnityEngine_Object_TypeInfo);
+    _InterlockedOr(v20, 0);
+    byte_1820A3F49 = 1;
+  }
+  if ( v8 )
+  {
+    if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+      il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+    if ( *(_QWORD *)(v8 + 16) )
+    {
+      v9 = a1[7];
+      if ( !byte_18209DDF0 )
+      {
+        sub_18026DA90(&FlashbangWindowBoundsProvider_EnumWindowsProc_TypeInfo);
+        _InterlockedOr(v20, 0);
+        sub_18026DA90(&Method_FlashbangWindowBoundsProvider___c__DisplayClass33_0__CollectWindows_b__0__);
+        _InterlockedOr(v20, 0);
+        sub_18026DA90(&FlashbangWindowBoundsProvider___c__DisplayClass33_0_TypeInfo);
+        _InterlockedOr(v20, 0);
+        byte_18209DDF0 = 1;
+      }
+      v10 = sub_1802A7B70(FlashbangWindowBoundsProvider___c__DisplayClass33_0_TypeInfo);
+      v11 = v10;
+      if ( v10 )
+      {
+        *(_QWORD *)(v10 + 24) = a1;
+        v12 = dword_18209DC58;
+        if ( dword_18209DC58 )
+        {
+          v13 = &qword_1820A8140[(((unsigned __int64)(v11 + 24) >> 12) & 0x1FFFFF) >> 6];
+          _m_prefetchw(v13 + 35932);
+          do
+            v14 = v13[35932];
+          while ( v14 != _InterlockedCompareExchange64(
+                           v13 + 35932,
+                           v14 | (1i64 << (((unsigned __int64)(v11 + 24) >> 12) & 0x3F)),
+                           v14) );
+          v12 = dword_18209DC58;
+        }
+        *(_QWORD *)(v11 + 48) = v9;
+        if ( v12 )
+        {
+          v15 = &qword_1820A8140[(((unsigned __int64)(v11 + 48) >> 12) & 0x1FFFFF) >> 6];
+          _m_prefetchw(v15 + 35932);
+          do
+            v16 = v15[35932];
+          while ( v16 != _InterlockedCompareExchange64(
+                           v15 + 35932,
+                           v16 | (1i64 << (((unsigned __int64)(v11 + 48) >> 12) & 0x3F)),
+                           v16) );
+        }
+        v17 = (__int64 (*)(void))qword_18209DDD0;
+        if ( !qword_18209DDD0 )
+        {
+          v21[1] = 10i64;
+          v21[0] = (__int64)L"user32.dll";
+          v21[3] = 14i64;
+          v21[2] = (__int64)"GetShellWindow";
+          v22 = 0;
+          v23 = 2i64;
+          v24 = 0;
+          v17 = (__int64 (*)(void))sub_1802A7C80(v21);
+          qword_18209DDD0 = (__int64)v17;
+        }
+        *(_QWORD *)(v11 + 16) = v17();
+        if ( (unsigned __int8)FlashbangWindowBoundsProvider__TryGetUnityClientRect(a1, v11 + 32, 0i64) )
+        {
+          v18 = sub_1802A7B70(FlashbangWindowBoundsProvider_EnumWindowsProc_TypeInfo);
+          FlashbangWindowBoundsProvider_EnumWindowsProc___ctor(
+            v18,
+            v11,
+            Method_FlashbangWindowBoundsProvider___c__DisplayClass33_0__CollectWindows_b__0__,
+            0i64);
+          FlashbangWindowBoundsProvider__EnumWindows(v18, 0i64, 0i64);
+        }
+        goto LABEL_45;
+      }
+LABEL_48:
+      sub_18025F9D0(v3, a2);
+    }
+  }
+LABEL_45:
+  v3 = a1[6];
+  if ( !v3 )
+    goto LABEL_48;
+  ++*(_DWORD *)(v3 + 28);
+  *(_DWORD *)(v3 + 24) = 0;
+  v3 = a1[6];
+  if ( !v3 )
+    goto LABEL_48;
+  return System_Collections_Generic_List_Rect___InsertRange(
+           v3,
+           *(unsigned int *)(v3 + 24),
+           a1[7],
+           *(_QWORD *)(*(_QWORD *)(*(_QWORD *)(Method_System_Collections_Generic_List_Rect__AddRange__ + 32) + 192i64)
+                     + 136i64));
+}
+
+
+-
+
+7).
+Name: CollectWindows
+Signature: private void CollectWindows(List<Rect> output)
+RVA: 0x31BE10
+VA: 0x18031BE10
+IDA_EA: 0x18031BE10
+-
+bool __fastcall FlashbangWindowBoundsProvider__EnumWindows(__int64 a1, __int64 a2)
+{
+  __int64 v4; // rax
+  __int64 v6[4]; // [rsp+20h] [rbp-38h] BYREF
+  int v7; // [rsp+40h] [rbp-18h]
+  int v8; // [rsp+44h] [rbp-14h]
+  int v9; // [rsp+48h] [rbp-10h]
+  char v10; // [rsp+4Ch] [rbp-Ch]
+
+  if ( !qword_18209DDA0 )
+  {
+    v6[1] = 10i64;
+    v6[0] = (__int64)L"user32.dll";
+    v6[3] = 11i64;
+    v6[2] = (__int64)"EnumWindows";
+    v7 = 0;
+    v8 = 2;
+    v9 = 16;
+    v10 = 0;
+    qword_18209DDA0 = (__int64 (__fastcall *)(_QWORD, _QWORD))sub_1802A7C80(v6);
+  }
+  v4 = sub_1802A8150(a1);
+  return (unsigned int)qword_18209DDA0(v4, a2) != 0;
+}
+
+
+-
+
+8).
+Name: TryGetUnityClientRect
+Signature: private bool TryGetUnityClientRect(out FlashbangWindowBoundsProvider.RECT clientRect)
+RVA: 0x31C580
+VA: 0x18031C580
+IDA_EA: 0x18031C580
+-
+char __fastcall FlashbangWindowBoundsProvider__TryGetUnityClientRect(__int64 a1, __int128 *a2)
+{
+  __int64 v4; // rbx
+  __int64 v5; // rax
+  __int64 v6; // rdx
+  __int64 v7; // rcx
+  __int64 v8; // rax
+  __int64 v9; // rdi
+  bool v10; // zf
+  __int64 *v11; // rdx
+  __int64 v12; // rtt
+  __int64 v13; // rbx
+  unsigned int (__fastcall *v14)(__int64, __int128 *); // rax
+  unsigned int (__fastcall *v15)(__int64, __int64 *); // rax
+  char result; // al
+  __int128 v17; // xmm0
+  signed __int32 v18[8]; // [rsp+0h] [rbp-80h] BYREF
+  __int64 v19; // [rsp+20h] [rbp-60h] BYREF
+  __int128 v20; // [rsp+28h] [rbp-58h] BYREF
+  LPARAM lParam; // [rsp+38h] [rbp-48h] BYREF
+  __int64 v22; // [rsp+40h] [rbp-40h]
+  const wchar_t *v23; // [rsp+48h] [rbp-38h] BYREF
+  __int64 v24; // [rsp+50h] [rbp-30h]
+  const char *v25; // [rsp+58h] [rbp-28h]
+  __int64 v26; // [rsp+60h] [rbp-20h]
+  int v27; // [rsp+68h] [rbp-18h]
+  int v28; // [rsp+6Ch] [rbp-14h]
+  int v29; // [rsp+70h] [rbp-10h]
+  char v30; // [rsp+74h] [rbp-Ch]
+  __int64 v31; // [rsp+B8h] [rbp+38h] BYREF
+
+  if ( !byte_18209DDF1 )
+  {
+    sub_18026DA90(&TransparentWindow_TypeInfo);
+    _InterlockedOr(v18, 0);
+    byte_18209DDF1 = 1;
+  }
+  v19 = 0i64;
+  v20 = 0i64;
+  v31 = 0i64;
+  if ( !*(_DWORD *)(TransparentWindow_TypeInfo + 228) )
+    il2cpp_runtime_class_init_0(TransparentWindow_TypeInfo);
+  if ( !byte_18209DE3C )
+  {
+    sub_18026DA90(&TransparentWindow_TypeInfo);
+    _InterlockedOr(v18, 0);
+    byte_18209DE3C = 1;
+  }
+  if ( !*(_DWORD *)(TransparentWindow_TypeInfo + 228) )
+    il2cpp_runtime_class_init_0(TransparentWindow_TypeInfo);
+  v4 = *(_QWORD *)(*(_QWORD *)(TransparentWindow_TypeInfo + 184) + 8i64);
+  if ( !v4 )
+  {
+    v5 = System_Diagnostics_Process__GetCurrentProcess(0i64);
+    if ( !v5 )
+      goto LABEL_29;
+    LODWORD(lParam) = *(_DWORD *)(v5 + 44);
+    v22 = 0i64;
+    EnumWindows(EnumFunc, (LPARAM)&lParam);
+    v4 = v22;
+    if ( v22 )
+      goto LABEL_19;
+    if ( !byte_18209DDF2 )
+    {
+      sub_18026DA90(&FlashbangWindowBoundsProvider_EnumWindowsProc_TypeInfo);
+      _InterlockedOr(v18, 0);
+      sub_18026DA90(&Method_FlashbangWindowBoundsProvider___c__DisplayClass35_0__FindCurrentProcessWindow_b__0__);
+      _InterlockedOr(v18, 0);
+      sub_18026DA90(&FlashbangWindowBoundsProvider___c__DisplayClass35_0_TypeInfo);
+      _InterlockedOr(v18, 0);
+      byte_18209DDF2 = 1;
+    }
+    v8 = sub_1802A7B70(FlashbangWindowBoundsProvider___c__DisplayClass35_0_TypeInfo);
+    v9 = v8;
+    if ( !v8 )
+LABEL_29:
+      sub_18025F9D0(v7, v6);
+    v10 = dword_18209DC58 == 0;
+    *(_QWORD *)(v8 + 16) = a1;
+    if ( !v10 )
+    {
+      v11 = &qword_1820EE420[(((unsigned __int64)(v8 + 16) >> 12) & 0x1FFFFF) >> 6];
+      _m_prefetchw(v11);
+      do
+        v12 = *v11;
+      while ( v12 != _InterlockedCompareExchange64(
+                       v11,
+                       *v11 | (1i64 << (((unsigned __int64)(v8 + 16) >> 12) & 0x3F)),
+                       *v11) );
+    }
+    *(_QWORD *)(v8 + 24) = 0i64;
+    v13 = sub_1802A7B70(FlashbangWindowBoundsProvider_EnumWindowsProc_TypeInfo);
+    FlashbangWindowBoundsProvider_EnumWindowsProc___ctor(
+      v13,
+      v9,
+      Method_FlashbangWindowBoundsProvider___c__DisplayClass35_0__FindCurrentProcessWindow_b__0__,
+      0i64);
+    FlashbangWindowBoundsProvider__EnumWindows(v13, 0i64);
+    v4 = *(_QWORD *)(v9 + 24);
+    if ( !v4 )
+      goto LABEL_27;
+  }
+LABEL_19:
+  v14 = (unsigned int (__fastcall *)(__int64, __int128 *))qword_18209DDC0;
+  if ( !qword_18209DDC0 )
+  {
+    v23 = L"user32.dll";
+    v25 = "GetClientRect";
+    v24 = 10i64;
+    v26 = 13i64;
+    v27 = 0;
+    v28 = 2;
+    v29 = 16;
+    v30 = 0;
+    v14 = (unsigned int (__fastcall *)(__int64, __int128 *))sub_1802A7C80(&v23);
+    qword_18209DDC0 = (__int64)v14;
+  }
+  if ( !v14(v4, &v20) )
+    goto LABEL_27;
+  v31 = *((_QWORD *)&v20 + 1);
+  v19 = v20;
+  v15 = (unsigned int (__fastcall *)(__int64, __int64 *))qword_18209DDC8;
+  if ( !qword_18209DDC8 )
+  {
+    v23 = L"user32.dll";
+    v25 = "ClientToScreen";
+    v24 = 10i64;
+    v26 = 14i64;
+    v27 = 0;
+    v28 = 2;
+    v29 = 16;
+    v30 = 0;
+    v15 = (unsigned int (__fastcall *)(__int64, __int64 *))sub_1802A7C80(&v23);
+    qword_18209DDC8 = (__int64)v15;
+  }
+  if ( !v15(v4, &v19) || !(unsigned __int8)FlashbangWindowBoundsProvider__ClientToScreen(v4, &v31, 0i64) )
+  {
+LABEL_27:
+    v17 = 0i64;
+    result = 0;
+    goto LABEL_28;
+  }
+  *(_QWORD *)&v20 = v19;
+  *((_QWORD *)&v20 + 1) = v31;
+  result = 1;
+  v17 = v20;
+LABEL_28:
+  *a2 = v17;
+  return result;
+}
+
+
+-
+
+9).
+Name: FindCurrentProcessWindow
+Signature: private IntPtr FindCurrentProcessWindow()
+RVA: 0x31C8C0
+VA: 0x18031C8C0
+IDA_EA: 0x18031C8C0
+-
+__int64 __fastcall FlashbangWindowBoundsProvider__FindCurrentProcessWindow(__int64 a1)
+{
+  __int64 v2; // rax
+  __int64 v3; // rdx
+  __int64 v4; // rcx
+  __int64 v5; // rdi
+  bool v6; // zf
+  __int64 *v7; // rdx
+  __int64 v8; // rtt
+  __int64 v9; // rbx
+  signed __int32 v11[10]; // [rsp+0h] [rbp-28h] BYREF
+
+  if ( !byte_18209DDF2 )
+  {
+    sub_18026DA90(&FlashbangWindowBoundsProvider_EnumWindowsProc_TypeInfo);
+    _InterlockedOr(v11, 0);
+    sub_18026DA90(&Method_FlashbangWindowBoundsProvider___c__DisplayClass35_0__FindCurrentProcessWindow_b__0__);
+    _InterlockedOr(v11, 0);
+    sub_18026DA90(&FlashbangWindowBoundsProvider___c__DisplayClass35_0_TypeInfo);
+    _InterlockedOr(v11, 0);
+    byte_18209DDF2 = 1;
+  }
+  v2 = sub_1802A7B70(FlashbangWindowBoundsProvider___c__DisplayClass35_0_TypeInfo);
+  v5 = v2;
+  if ( !v2 )
+    sub_18025F9D0(v4, v3);
+  v6 = dword_18209DC58 == 0;
+  *(_QWORD *)(v2 + 16) = a1;
+  if ( !v6 )
+  {
+    v7 = &qword_1820EE420[(((unsigned __int64)(v2 + 16) >> 12) & 0x1FFFFF) >> 6];
+    _m_prefetchw(v7);
+    do
+      v8 = *v7;
+    while ( v8 != _InterlockedCompareExchange64(v7, *v7 | (1i64 << (((unsigned __int64)(v2 + 16) >> 12) & 0x3F)), *v7) );
+  }
+  *(_QWORD *)(v2 + 24) = 0i64;
+  v9 = sub_1802A7B70(FlashbangWindowBoundsProvider_EnumWindowsProc_TypeInfo);
+  FlashbangWindowBoundsProvider_EnumWindowsProc___ctor(
+    v9,
+    v5,
+    Method_FlashbangWindowBoundsProvider___c__DisplayClass35_0__FindCurrentProcessWindow_b__0__,
+    0i64);
+  FlashbangWindowBoundsProvider__EnumWindows(v9, 0i64);
+  return *(_QWORD *)(v5 + 24);
+}
+
+
+-
+
+10).
+Name: TryGetVisibleWindowRect
+Signature: private static bool TryGetVisibleWindowRect(IntPtr hWnd, out FlashbangWindowBoundsProvider.RECT rect)
+RVA: 0x31C9C0
+VA: 0x18031C9C0
+IDA_EA: 0x18031C9C0
+-
+bool __fastcall FlashbangWindowBoundsProvider__TryGetVisibleWindowRect(__int64 a1, __int64 a2)
+{
+  __int64 v2; // rdi
+  __int64 v4; // rbx
+  __int64 v5; // r8
+  __int64 v6; // r9
+  __int64 v7; // rcx
+  __int64 v8; // rbx
+  __int64 v9; // rax
+  unsigned int v10; // ebx
+  unsigned int (__fastcall *v11)(__int64, __int64, __int64, _QWORD); // rax
+  unsigned int (__fastcall *v12)(__int64, __int64); // rax
+  signed __int32 v14[8]; // [rsp+0h] [rbp-58h] BYREF
+  const wchar_t *v15; // [rsp+20h] [rbp-38h] BYREF
+  __int64 v16; // [rsp+28h] [rbp-30h]
+  const char *v17; // [rsp+30h] [rbp-28h]
+  __int64 v18; // [rsp+38h] [rbp-20h]
+  __int64 v19; // [rsp+40h] [rbp-18h]
+  __int64 v20; // [rsp+48h] [rbp-10h]
+
+  v2 = a2;
+  if ( !byte_18209DDF3 )
+  {
+    sub_18026DA90(&Method_System_Runtime_InteropServices_Marshal_SizeOf_FlashbangWindowBoundsProvider_RECT___);
+    _InterlockedOr(v14, 0);
+    sub_18026DA90(&System_Runtime_InteropServices_Marshal_TypeInfo);
+    _InterlockedOr(v14, 0);
+    byte_18209DDF3 = 1;
+  }
+  if ( !*(_DWORD *)(System_Runtime_InteropServices_Marshal_TypeInfo + 228) )
+    il2cpp_runtime_class_init_0(System_Runtime_InteropServices_Marshal_TypeInfo);
+  v4 = Method_System_Runtime_InteropServices_Marshal_SizeOf_FlashbangWindowBoundsProvider_RECT___;
+  if ( !*(_QWORD *)(Method_System_Runtime_InteropServices_Marshal_SizeOf_FlashbangWindowBoundsProvider_RECT___ + 56) )
+  {
+    sub_18026DA90(&System_Runtime_InteropServices_Marshal_TypeInfo);
+    _InterlockedOr(v14, 0);
+    if ( !*(_QWORD *)(v4 + 56) )
+      sub_18025CA20(v4, a2, v5, v6, v15, v16, v17, v18, v19, v20);
+  }
+  v7 = qword_18209C350;
+  v8 = **(_QWORD **)(v4 + 56);
+  if ( !*(_DWORD *)(qword_18209C350 + 228) )
+  {
+    il2cpp_runtime_class_init_0(qword_18209C350);
+    v7 = qword_18209C350;
+  }
+  if ( v8 )
+  {
+    if ( !*(_DWORD *)(v7 + 228) )
+      il2cpp_runtime_class_init_0(v7);
+    LOBYTE(a2) = 1;
+    v9 = sub_1802AEBD0(v8, a2);
+    v8 = il2cpp_type_get_object_0(v9 + 32);
+  }
+  if ( !*(_DWORD *)(System_Runtime_InteropServices_Marshal_TypeInfo + 228) )
+    il2cpp_runtime_class_init_0(System_Runtime_InteropServices_Marshal_TypeInfo);
+  v10 = System_Runtime_InteropServices_Marshal__SizeOf(v8, 0i64);
+  v11 = (unsigned int (__fastcall *)(__int64, __int64, __int64, _QWORD))qword_18209DDE0;
+  if ( !qword_18209DDE0 )
+  {
+    v16 = 10i64;
+    v15 = L"dwmapi.dll";
+    v18 = 21i64;
+    v17 = "DwmGetWindowAttribute";
+    v19 = 0x200000000i64;
+    LODWORD(v20) = 24;
+    BYTE4(v20) = 0;
+    v11 = (unsigned int (__fastcall *)(__int64, __int64, __int64, _QWORD))sub_1802A7C80(&v15);
+    qword_18209DDE0 = (__int64)v11;
+  }
+  if ( !v11(a1, 9i64, v2, v10) )
+    return 1;
+  v12 = (unsigned int (__fastcall *)(__int64, __int64))qword_18209DDB8;
+  if ( !qword_18209DDB8 )
+  {
+    v16 = 10i64;
+    v15 = L"user32.dll";
+    v18 = 13i64;
+    v17 = "GetWindowRect";
+    v19 = 0x200000000i64;
+    LODWORD(v20) = 16;
+    BYTE4(v20) = 0;
+    v12 = (unsigned int (__fastcall *)(__int64, __int64))sub_1802A7C80(&v15);
+    qword_18209DDB8 = (__int64)v12;
+  }
+  return v12(a1, v2) != 0;
+}
+
+
+-
+
+11).
+Name: IsCloaked
+Signature: private static bool IsCloaked(IntPtr hWnd)
+RVA: 0x31CBD0
+VA: 0x18031CBD0
+IDA_EA: 0x18031CBD0
+-
+bool __fastcall FlashbangWindowBoundsProvider__IsCloaked(__int64 a1)
+{
+  unsigned int (__fastcall *v1)(__int64, __int64, int *, __int64); // rax
+  bool result; // al
+  __int64 v4[4]; // [rsp+20h] [rbp-38h] BYREF
+  int v5; // [rsp+40h] [rbp-18h]
+  int v6; // [rsp+44h] [rbp-14h]
+  int v7; // [rsp+48h] [rbp-10h]
+  char v8; // [rsp+4Ch] [rbp-Ch]
+  int v9; // [rsp+60h] [rbp+8h] BYREF
+
+  v1 = (unsigned int (__fastcall *)(__int64, __int64, int *, __int64))qword_18209DDE8;
+  v9 = 0;
+  if ( !qword_18209DDE8 )
+  {
+    v5 = 0;
+    v4[0] = (__int64)L"dwmapi.dll";
+    v8 = 0;
+    v4[2] = (__int64)"DwmGetWindowAttribute";
+    v4[1] = 10i64;
+    v4[3] = 21i64;
+    v6 = 2;
+    v7 = 24;
+    v1 = (unsigned int (__fastcall *)(__int64, __int64, int *, __int64))sub_1802A7C80(v4);
+    qword_18209DDE8 = (__int64)v1;
+  }
+  if ( v1(a1, 14i64, &v9, 4i64) )
+    result = 0;
+  else
+    result = v9 != 0;
+  return result;
+}
+
+
+-
+
+12).
+Name: TryIntersect
+Signature: private static bool TryIntersect(FlashbangWindowBoundsProvider.RECT a, FlashbangWindowBoundsProvider.RECT b, out FlashbangWindowBoundsProvider.RECT intersection)
+RVA: 0x31CC70
+VA: 0x18031CC70
+IDA_EA: 0x18031CC70
+-
+bool __fastcall FlashbangWindowBoundsProvider__TryIntersect(int *a1, int *a2, __int64 a3)
+{
+  int v6; // ebp
+  int v7; // ecx
+  int v8; // ecx
+  int v9; // ecx
+  bool result; // al
+  signed __int32 v11[8]; // [rsp+0h] [rbp-38h] BYREF
+  __int128 v12; // [rsp+20h] [rbp-18h]
+
+  if ( !byte_18209DDF4 )
+  {
+    sub_18026DA90(&System_Math_TypeInfo);
+    _InterlockedOr(v11, 0);
+    byte_18209DDF4 = 1;
+  }
+  v6 = *a1;
+  if ( !*(_DWORD *)(System_Math_TypeInfo + 228) )
+    il2cpp_runtime_class_init_0(System_Math_TypeInfo);
+  v7 = a1[1];
+  if ( v6 < *a2 )
+    v6 = *a2;
+  LODWORD(v12) = v6;
+  if ( v7 < a2[1] )
+    v7 = a2[1];
+  DWORD1(v12) = v7;
+  v8 = a1[2];
+  if ( v8 > a2[2] )
+    v8 = a2[2];
+  DWORD2(v12) = v8;
+  v9 = a1[3];
+  if ( v9 > a2[3] )
+    v9 = a2[3];
+  HIDWORD(v12) = v9;
+  *(_OWORD *)a3 = v12;
+  if ( *(_DWORD *)(a3 + 8) > *(_DWORD *)a3 )
+    result = *(_DWORD *)(a3 + 12) > *(_DWORD *)(a3 + 4);
+  else
+    result = 0;
+  return result;
+}
+
+
+-
+
+13).
+Name: ConvertDesktopRectToWorld
+Signature: private Rect? ConvertDesktopRectToWorld(FlashbangWindowBoundsProvider.RECT rect, FlashbangWindowBoundsProvider.RECT unityClientRect)
+RVA: 0x31CD30
+VA: 0x18031CD30
+IDA_EA: 0x18031CD30
+-
+__int64 __fastcall FlashbangWindowBoundsProvider__ConvertDesktopRectToWorld(__int64 a1, __int64 a2, _DWORD *a3, _DWORD *a4)
+{
+  float v8; // xmm9_4
+  __int64 (*v9)(void); // rax
+  float v10; // xmm11_4
+  __m128i v11; // xmm10
+  int (*v12)(void); // rax
+  float v13; // xmm10_4
+  __int64 v14; // rdx
+  float v15; // xmm2_4
+  __m128 v16; // xmm6
+  __m128 v17; // xmm7
+  __m128 v18; // xmm8
+  float v19; // xmm1_4
+  __m128 v20; // xmm9
+  float v21; // xmm1_4
+  __int64 v22; // rbx
+  __int64 v23; // rcx
+  __int64 v24; // rax
+  float v25; // xmm1_4
+  __int64 v26; // rsi
+  void (__fastcall *v27)(__int64, unsigned __int64 *, __int64, __int64 *); // rax
+  __int64 v28; // rsi
+  __int64 v29; // rax
+  __int64 v30; // rax
+  __int64 v31; // rbx
+  void (__fastcall *v32)(__int64, unsigned __int64 *, __int64, unsigned __int64 *); // rax
+  float v33; // xmm4_4
+  __m128 v34; // xmm2
+  __m128 v35; // xmm2
+  __m128 v36; // xmm2
+  __int64 v38; // rax
+  __int64 v39; // rax
+  __int64 v40; // rax
+  __int64 v41; // rax
+  signed __int32 v42[8]; // [rsp+0h] [rbp-81h] BYREF
+  __int64 v43; // [rsp+20h] [rbp-61h] BYREF
+  int v44; // [rsp+28h] [rbp-59h]
+  unsigned __int64 v45; // [rsp+30h] [rbp-51h] BYREF
+  float v46; // [rsp+38h] [rbp-49h]
+  unsigned __int64 v47; // [rsp+40h] [rbp-41h] BYREF
+  float v48; // [rsp+48h] [rbp-39h]
+  __m128 v49; // [rsp+50h] [rbp-31h] BYREF
+
+  if ( !byte_18209DDF5 )
+  {
+    sub_18026DA90(&Method_System_Nullable_Rect___ctor__);
+    _InterlockedOr(v42, 0);
+    sub_18026DA90(&UnityEngine_Rect_TypeInfo);
+    _InterlockedOr(v42, 0);
+    byte_18209DDF5 = 1;
+  }
+  v8 = (float)(a4[2] - *a4);
+  v9 = (__int64 (*)(void))qword_1820A2E40;
+  v10 = (float)(a4[3] - a4[1]);
+  if ( !qword_1820A2E40 )
+  {
+    v9 = (__int64 (*)(void))il2cpp_resolve_icall_0("UnityEngine.Screen::get_width()");
+    if ( !v9 )
+    {
+      v38 = sub_180279910("UnityEngine.Screen::get_width()");
+      sub_1802776D0(v38, 0i64);
+    }
+    qword_1820A2E40 = (__int64)v9;
+  }
+  v11 = _mm_cvtsi32_si128(v9());
+  v12 = (int (*)(void))qword_1820A2E48;
+  LODWORD(v13) = _mm_cvtepi32_ps(v11).m128_u32[0];
+  if ( !qword_1820A2E48 )
+  {
+    v12 = (int (*)(void))il2cpp_resolve_icall_0("UnityEngine.Screen::get_height()");
+    if ( !v12 )
+    {
+      v39 = sub_180279910("UnityEngine.Screen::get_height()");
+      sub_1802776D0(v39, 0i64);
+    }
+    qword_1820A2E48 = (__int64)v12;
+  }
+  v15 = (float)v12();
+  if ( v8 <= 0.0 || v10 <= 0.0 || v13 <= 0.0 || v15 <= 0.0 )
+    goto LABEL_50;
+  v16 = (__m128)0x3F800000u;
+  v17 = (__m128)COERCE_UNSIGNED_INT((float)(*a3 - *a4));
+  v17.m128_f32[0] = v17.m128_f32[0] / v8;
+  if ( v17.m128_f32[0] < 0.0 )
+  {
+    v17 = 0i64;
+  }
+  else if ( v17.m128_f32[0] > 1.0 )
+  {
+    v17 = (__m128)0x3F800000u;
+  }
+  v17.m128_f32[0] = v17.m128_f32[0] * v13;
+  v18 = (__m128)COERCE_UNSIGNED_INT((float)(a3[2] - *a4));
+  v18.m128_f32[0] = v18.m128_f32[0] / v8;
+  if ( v18.m128_f32[0] < 0.0 )
+  {
+    v18 = 0i64;
+  }
+  else if ( v18.m128_f32[0] > 1.0 )
+  {
+    v18 = (__m128)0x3F800000u;
+  }
+  v18.m128_f32[0] = v18.m128_f32[0] * v13;
+  v19 = (float)(a3[3] - a4[1]) / v10;
+  if ( v19 < 0.0 )
+  {
+    v19 = 0.0;
+  }
+  else if ( v19 > 1.0 )
+  {
+    v19 = 1.0;
+  }
+  v20 = (__m128)0x3F800000u;
+  v20.m128_f32[0] = (float)(1.0 - v19) * v15;
+  v21 = (float)(a3[1] - a4[1]) / v10;
+  if ( v21 < 0.0 )
+  {
+    v21 = 0.0;
+  }
+  else if ( v21 > 1.0 )
+  {
+    v21 = 1.0;
+  }
+  v16.m128_f32[0] = (float)(1.0 - v21) * v15;
+  if ( v17.m128_f32[0] >= v18.m128_f32[0] || v20.m128_f32[0] >= v16.m128_f32[0] )
+  {
+LABEL_50:
+    *(_OWORD *)a1 = 0i64;
+    *(_DWORD *)(a1 + 16) = 0;
+  }
+  else
+  {
+    v22 = *(_QWORD *)(a2 + 32);
+    v23 = v22;
+    if ( !v22 )
+      goto LABEL_58;
+    v24 = UnityEngine_Component__get_transform(v22, 0i64);
+    if ( !v24 )
+      goto LABEL_58;
+    v25 = -*(float *)(UnityEngine_Transform__get_position(&v47, v24, 0i64) + 8);
+    v45 = _mm_unpacklo_ps(v17, v20).m128_u64[0];
+    v46 = v25;
+    if ( !byte_1820A2B27 )
+    {
+      sub_18026DA90(&Method_UnityEngine_Object_MarshalledUnityObject_MarshalNotNull_Camera___);
+      _InterlockedOr(v42, 0);
+      byte_1820A2B27 = 1;
+    }
+    v43 = 0i64;
+    v44 = 0;
+    v26 = *(_QWORD *)(v22 + 16);
+    if ( !v26 )
+      UnityEngine_Bindings_ThrowHelper__ThrowNullReferenceException(v22, 0i64);
+    v27 = (void (__fastcall *)(__int64, unsigned __int64 *, __int64, __int64 *))qword_1820A2C60;
+    if ( !qword_1820A2C60 )
+    {
+      v27 = (void (__fastcall *)(__int64, unsigned __int64 *, __int64, __int64 *))il2cpp_resolve_icall_0(
+                                                                                    "UnityEngine.Camera::ScreenToWorldPoi"
+                                                                                    "nt_Injected(System.IntPtr,UnityEngin"
+                                                                                    "e.Vector3&,UnityEngine.Camera/MonoOr"
+                                                                                    "StereoscopicEye,UnityEngine.Vector3&)");
+      if ( !v27 )
+      {
+        v40 = sub_180279910(
+                "UnityEngine.Camera::ScreenToWorldPoint_Injected(System.IntPtr,UnityEngine.Vector3&,UnityEngine.Camera/Mo"
+                "noOrStereoscopicEye,UnityEngine.Vector3&)");
+        sub_1802776D0(v40, 0i64);
+      }
+      qword_1820A2C60 = (__int64)v27;
+    }
+    v27(v26, &v45, 2i64, &v43);
+    v28 = *(_QWORD *)(a2 + 32);
+    v23 = v28;
+    if ( !v28 || (v29 = UnityEngine_Component__get_transform(v28, 0i64)) == 0 )
+LABEL_58:
+      sub_18025F9D0(v23, v14);
+    v30 = UnityEngine_Transform__get_position(&v49, v29, 0i64);
+    v47 = _mm_unpacklo_ps(v18, v16).m128_u64[0];
+    v48 = -*(float *)(v30 + 8);
+    if ( !byte_1820A2B27 )
+    {
+      sub_18026DA90(&Method_UnityEngine_Object_MarshalledUnityObject_MarshalNotNull_Camera___);
+      _InterlockedOr(v42, 0);
+      byte_1820A2B27 = 1;
+    }
+    v45 = 0i64;
+    v46 = 0.0;
+    v31 = *(_QWORD *)(v28 + 16);
+    if ( !v31 )
+      UnityEngine_Bindings_ThrowHelper__ThrowNullReferenceException(v28, 0i64);
+    v32 = (void (__fastcall *)(__int64, unsigned __int64 *, __int64, unsigned __int64 *))qword_1820A2C60;
+    if ( !qword_1820A2C60 )
+    {
+      v32 = (void (__fastcall *)(__int64, unsigned __int64 *, __int64, unsigned __int64 *))il2cpp_resolve_icall_0(
+                                                                                             "UnityEngine.Camera::ScreenT"
+                                                                                             "oWorldPoint_Injected(System"
+                                                                                             ".IntPtr,UnityEngine.Vector3"
+                                                                                             "&,UnityEngine.Camera/MonoOr"
+                                                                                             "StereoscopicEye,UnityEngine.Vector3&)");
+      if ( !v32 )
+      {
+        v41 = sub_180279910(
+                "UnityEngine.Camera::ScreenToWorldPoint_Injected(System.IntPtr,UnityEngine.Vector3&,UnityEngine.Camera/Mo"
+                "noOrStereoscopicEye,UnityEngine.Vector3&)");
+        sub_1802776D0(v41, 0i64);
+      }
+      qword_1820A2C60 = (__int64)v32;
+    }
+    v32(v31, &v47, 2i64, &v45);
+    if ( !*(_DWORD *)(UnityEngine_Rect_TypeInfo + 228) )
+      il2cpp_runtime_class_init_0(UnityEngine_Rect_TypeInfo);
+    *(__int16 *)((char *)v49.m128_i16 + 1) = 0;
+    v33 = *((float *)&v45 + 1) - *((float *)&v43 + 1);
+    v49.m128_i8[3] = 0;
+    v49.m128_i8[0] = 1;
+    v34 = _mm_shuffle_ps(v49, v49, 225);
+    v34.m128_f32[0] = *(float *)&v43;
+    v35 = _mm_shuffle_ps(v34, v34, 198);
+    v35.m128_f32[0] = *((float *)&v43 + 1);
+    v36 = _mm_shuffle_ps(v35, v35, 39);
+    v36.m128_f32[0] = *(float *)&v45 - *(float *)&v43;
+    *(__m128 *)a1 = _mm_shuffle_ps(v36, v36, 57);
+    *(float *)(a1 + 16) = v33;
+  }
+  return a1;
+}
+
+
+-
+
+14).
+Name: FlashbangWindowBoundsProvider
+Signature: public FlashbangWindowBoundsProvider()
+RVA: 0x31D1F0
+VA: 0x18031D1F0
+IDA_EA: 0x18031D1F0
+-
+double __fastcall FlashbangWindowBoundsProvider___ctor(__int64 a1)
+{
+  __int64 v2; // rbx
+  bool v3; // zf
+  unsigned __int64 v4; // rdx
+  signed __int64 v5; // rtt
+  __int64 v6; // rbx
+  unsigned __int64 v7; // rdx
+  signed __int64 v8; // rtt
+  double result; // xmm0_8
+  signed __int32 v10[10]; // [rsp+0h] [rbp-28h] BYREF
+
+  if ( !byte_18209DDF6 )
+  {
+    sub_18026DA90(&Method_System_Collections_Generic_List_Rect___ctor__);
+    _InterlockedOr(v10, 0);
+    sub_18026DA90(&System_Collections_Generic_List_Rect__TypeInfo);
+    _InterlockedOr(v10, 0);
+    byte_18209DDF6 = 1;
+  }
+  *(_DWORD *)(a1 + 40) = 1056964608;
+  *(_DWORD *)(a1 + 44) = 80;
+  v2 = sub_1802A7B70(System_Collections_Generic_List_Rect__TypeInfo);
+  sub_1800025A0(v2);
+  v3 = dword_18209DC58 == 0;
+  *(_QWORD *)(a1 + 48) = v2;
+  if ( !v3 )
+  {
+    v4 = (((unsigned __int64)(a1 + 48) >> 12) & 0x1FFFFF) >> 6;
+    _m_prefetchw(&qword_1820A8140[v4 + 35932]);
+    do
+      v5 = qword_1820A8140[v4 + 35932];
+    while ( v5 != _InterlockedCompareExchange64(
+                    &qword_1820A8140[v4 + 35932],
+                    v5 | (1i64 << (((unsigned __int64)(a1 + 48) >> 12) & 0x3F)),
+                    v5) );
+  }
+  v6 = sub_1802A7B70(System_Collections_Generic_List_Rect__TypeInfo);
+  sub_1800025A0(v6);
+  v3 = dword_18209DC58 == 0;
+  *(_QWORD *)(a1 + 56) = v6;
+  if ( !v3 )
+  {
+    v7 = (((unsigned __int64)(a1 + 56) >> 12) & 0x1FFFFF) >> 6;
+    _m_prefetchw(&qword_1820A8140[v7 + 35932]);
+    do
+      v8 = qword_1820A8140[v7 + 35932];
+    while ( v8 != _InterlockedCompareExchange64(
+                    &qword_1820A8140[v7 + 35932],
+                    v8 | (1i64 << (((unsigned __int64)(a1 + 56) >> 12) & 0x3F)),
+                    v8) );
+  }
+  if ( !byte_1820A3D5A )
+  {
+    sub_18026DA90(&UnityEngine_Object_TypeInfo);
+    _InterlockedOr(v10, 0);
+    byte_1820A3D5A = 1;
+  }
+  if ( !*(_DWORD *)(UnityEngine_Object_TypeInfo + 228) )
+    result = il2cpp_runtime_class_init_0(UnityEngine_Object_TypeInfo);
+  return result;
+}
+
+
+-
+
+15).
+Name: c__DisplayClass33_0
+Signature: public <>c__DisplayClass33_0()
+RVA: 0x318320
+VA: 0x180318320
+IDA_EA: 0x180318320
+-
+void UnitySourceGeneratedAssemblyMonoScriptTypes_v1___ctor()
+{
+  ;
+}
+
+
+-
+
+16).
+Name: CollectWindowsb__0
+Signature: internal bool <CollectWindows>b__0(IntPtr hWnd, IntPtr _)
+RVA: 0x31D440
+VA: 0x18031D440
+IDA_EA: 0x18031D440
+-
+char __fastcall FlashbangWindowBoundsProvider___c__DisplayClass33_0___CollectWindows_b__0(__m128i *a1, __int64 a2)
+{
+  unsigned int (__fastcall *v4)(__int64); // rax
+  __int64 v5; // rdx
+  unsigned __int64 v6; // rcx
+  __int64 v7; // rax
+  unsigned int (__fastcall *v8)(__int64, __int64, int *, __int64); // rax
+  __m128i v9; // xmm6
+  __m128i v10; // xmm7
+  __int32 v11; // er10
+  unsigned __int64 v12; // rcx
+  unsigned __int64 v13; // rcx
+  unsigned __int64 v14; // xmm6_8
+  int v15; // er9
+  unsigned __int64 v16; // rcx
+  __int64 v17; // rax
+  __int64 v18; // rdx
+  __int64 v19; // rax
+  __m128i v20; // xmm0
+  __int64 v21; // r9
+  __int64 v22; // r8
+  __int64 v23; // rdx
+  __int64 v24; // r8
+  signed __int32 v26[8]; // [rsp+0h] [rbp-99h] BYREF
+  __int64 v27; // [rsp+20h] [rbp-79h]
+  __int128 v28; // [rsp+30h] [rbp-69h] BYREF
+  _BYTE v29[20]; // [rsp+40h] [rbp-59h] BYREF
+  const wchar_t *v30; // [rsp+60h] [rbp-39h] BYREF
+  __int64 v31; // [rsp+68h] [rbp-31h]
+  const char *v32; // [rsp+70h] [rbp-29h]
+  __int64 v33; // [rsp+78h] [rbp-21h]
+  int v34; // [rsp+80h] [rbp-19h]
+  int v35; // [rsp+84h] [rbp-15h]
+  int v36; // [rsp+88h] [rbp-11h]
+  char v37; // [rsp+8Ch] [rbp-Dh]
+  __m128i v38; // [rsp+90h] [rbp-9h] BYREF
+  char v39[32]; // [rsp+A0h] [rbp+7h] BYREF
+  int v40; // [rsp+100h] [rbp+67h] BYREF
+  int v41; // [rsp+108h] [rbp+6Fh] BYREF
+
+  if ( !byte_18209DDF7 )
+  {
+    sub_18026DA90(&Method_System_Collections_Generic_List_Rect__Add__);
+    _InterlockedOr(v26, 0);
+    sub_18026DA90(&Method_System_Nullable_Rect__get_HasValue__);
+    _InterlockedOr(v26, 0);
+    sub_18026DA90(&Method_System_Nullable_Rect__get_Value__);
+    _InterlockedOr(v26, 0);
+    byte_18209DDF7 = 1;
+  }
+  v40 = 0;
+  v38 = 0i64;
+  if ( a2 != a1[1].m128i_i64[0] && (unsigned __int8)FlashbangWindowBoundsProvider__IsWindowVisible(a2, 0i64) )
+  {
+    v4 = (unsigned int (__fastcall *)(__int64))qword_18209DDB0;
+    if ( !qword_18209DDB0 )
+    {
+      v31 = 10i64;
+      v30 = L"user32.dll";
+      v33 = 8i64;
+      v32 = "IsIconic";
+      v34 = 0;
+      v35 = 2;
+      v36 = 8;
+      v37 = 0;
+      v4 = (unsigned int (__fastcall *)(__int64))sub_1802A7C80(&v30);
+      qword_18209DDB0 = (__int64)v4;
+    }
+    if ( !v4(a2) )
+    {
+      FlashbangWindowBoundsProvider__GetWindowThreadProcessId(a2, &v40, 0i64);
+      v7 = a1[1].m128i_i64[1];
+      if ( !v7 )
+        goto LABEL_40;
+      if ( v40 != (__int64)*(int *)(v7 + 64) )
+      {
+        v8 = (unsigned int (__fastcall *)(__int64, __int64, int *, __int64))qword_18209DDE8;
+        v41 = 0;
+        if ( !qword_18209DDE8 )
+        {
+          v31 = 10i64;
+          v30 = L"dwmapi.dll";
+          v33 = 21i64;
+          v32 = "DwmGetWindowAttribute";
+          v34 = 0;
+          v35 = 2;
+          v36 = 24;
+          v37 = 0;
+          v8 = (unsigned int (__fastcall *)(__int64, __int64, int *, __int64))sub_1802A7C80(&v30);
+          qword_18209DDE8 = (__int64)v8;
+        }
+        if ( (v8(a2, 14i64, &v41, 4i64) || !v41)
+          && FlashbangWindowBoundsProvider__TryGetVisibleWindowRect(a2, (__int64)&v38) )
+        {
+          v9 = a1[2];
+          v10 = v38;
+          if ( !byte_18209DDF4 )
+          {
+            sub_18026DA90(&System_Math_TypeInfo);
+            _InterlockedOr(v26, 0);
+            byte_18209DDF4 = 1;
+          }
+          if ( !*(_DWORD *)(System_Math_TypeInfo + 228) )
+            il2cpp_runtime_class_init_0(System_Math_TypeInfo);
+          v11 = v10.m128i_i32[0];
+          if ( v10.m128i_i32[0] < v9.m128i_i32[0] )
+            v11 = v9.m128i_i32[0];
+          LODWORD(v28) = v11;
+          v12 = HIDWORD(v10.m128i_i64[0]);
+          if ( v10.m128i_i32[1] < v9.m128i_i32[1] )
+            LODWORD(v12) = v9.m128i_i32[1];
+          DWORD1(v28) = v12;
+          v13 = _mm_srli_si128(v10, 8).m128i_u64[0];
+          v14 = _mm_srli_si128(v9, 8).m128i_u64[0];
+          v15 = v13;
+          if ( (int)v13 > (int)v14 )
+            v15 = v14;
+          DWORD2(v28) = v15;
+          v16 = HIDWORD(v13);
+          if ( (int)v16 > SHIDWORD(v14) )
+            LODWORD(v16) = HIDWORD(v14);
+          HIDWORD(v28) = v16;
+          if ( v15 > v11 )
+          {
+            v5 = *((_QWORD *)&v28 + 1);
+            v6 = DWORD1(v28);
+            if ( SHIDWORD(v28) > SDWORD1(v28) )
+            {
+              v17 = a1[1].m128i_i64[1];
+              if ( v17 )
+              {
+                if ( v15 - v11 < *(_DWORD *)(v17 + 44) && HIDWORD(v28) - DWORD1(v28) < *(_DWORD *)(v17 + 44) )
+                  return 1;
+                v18 = a1[1].m128i_i64[1];
+                *(__m128i *)v29 = a1[2];
+                v27 = 0i64;
+                v19 = FlashbangWindowBoundsProvider__ConvertDesktopRectToWorld((__int64)v39, v18, &v28, v29);
+                v20 = *(__m128i *)v19;
+                *(_DWORD *)&v29[16] = *(_DWORD *)(v19 + 16);
+                *(__m128i *)v29 = v20;
+                if ( !(unsigned __int8)_mm_cvtsi128_si32(v20) )
+                  return 1;
+                v6 = a1[3].m128i_u64[0];
+                if ( v6 )
+                {
+                  v21 = Method_System_Collections_Generic_List_Rect__Add__;
+                  ++*(_DWORD *)(v6 + 28);
+                  v22 = *(_QWORD *)(v6 + 16);
+                  if ( v22 )
+                  {
+                    v23 = *(int *)(v6 + 24);
+                    if ( (unsigned int)v23 < *(_DWORD *)(v22 + 24) )
+                    {
+                      *(_DWORD *)(v6 + 24) = v23 + 1;
+                      if ( (unsigned int)v23 >= *(_DWORD *)(v22 + 24) )
+                        sub_18025F9E0(v6, v23, v22, v21);
+                      *(_OWORD *)(v22 + 16 * (v23 + 2)) = *(_OWORD *)&v29[4];
+                    }
+                    else
+                    {
+                      v24 = *(_QWORD *)(*(_QWORD *)(v21 + 32) + 192i64);
+                      *(_OWORD *)v29 = *(_OWORD *)&v29[4];
+                      System_Collections_Generic_List_UILineInfo___AddWithResize(v6, v29, *(_QWORD *)(v24 + 112));
+                    }
+                    return 1;
+                  }
+                }
+              }
+LABEL_40:
+              sub_18025F9D0(v6, v5);
+            }
+          }
+        }
+      }
+    }
+  }
+  return 1;
+}
+
+
+-
+
+17).
+Name: c__DisplayClass35_0
+Signature: public <>c__DisplayClass35_0()
+RVA: 0x318320
+VA: 0x180318320
+IDA_EA: 0x180318320
+-
+void UnitySourceGeneratedAssemblyMonoScriptTypes_v1___ctor()
+{
+  ;
+}
+
+
+-
+
+18).
+Name: FindCurrentProcessWindowb__0
+Signature: internal bool <FindCurrentProcessWindow>b__0(IntPtr hWnd, IntPtr _)
+RVA: 0x31D7C0
+VA: 0x18031D7C0
+IDA_EA: 0x18031D7C0
+-
+char __fastcall FlashbangWindowBoundsProvider___c__DisplayClass35_0___FindCurrentProcessWindow_b__0(__int64 a1, __int64 a2)
+{
+  void (__fastcall *v2)(__int64, int *); // rax
+  __int64 v5; // rdx
+  __int64 v6; // rcx
+  __int64 v7; // rax
+  __int64 v9[4]; // [rsp+20h] [rbp-38h] BYREF
+  int v10; // [rsp+40h] [rbp-18h]
+  int v11; // [rsp+44h] [rbp-14h]
+  int v12; // [rsp+48h] [rbp-10h]
+  char v13; // [rsp+4Ch] [rbp-Ch]
+  int v14; // [rsp+60h] [rbp+8h] BYREF
+
+  v2 = (void (__fastcall *)(__int64, int *))qword_18209DDD8;
+  v14 = 0;
+  if ( !qword_18209DDD8 )
+  {
+    v10 = 0;
+    v9[0] = (__int64)L"user32.dll";
+    v13 = 0;
+    v9[2] = (__int64)"GetWindowThreadProcessId";
+    v9[1] = 10i64;
+    v9[3] = 24i64;
+    v11 = 2;
+    v12 = 16;
+    v2 = (void (__fastcall *)(__int64, int *))sub_1802A7C80(v9);
+    qword_18209DDD8 = (__int64)v2;
+  }
+  v2(a2, &v14);
+  v7 = *(_QWORD *)(a1 + 16);
+  if ( !v7 )
+    sub_18025F9D0(v6, v5);
+  if ( v14 != (__int64)*(int *)(v7 + 64) || !(unsigned __int8)FlashbangWindowBoundsProvider__IsWindowVisible(a2, 0i64) )
+    return 1;
+  *(_QWORD *)(a1 + 24) = a2;
+  return 0;
+}
+
+
+-
+

@@ -229,13 +229,13 @@ ImageBase: 0x180000000
 Methods found: 12
 
 1).
-Name: get_WindowHandle
-Signature: get WindowHandle
-SourceLine: 17
+Name: GetActiveWindow
+Signature: private static extern IntPtr GetActiveWindow()
+SourceLine: 19
 RVA: 0x320ED0
 VA: 0x180320ED0
 IDA_EA: 0x180320ED0
--
+--------------------------------------------------------------------------------
 __int64 TransparentWindow__GetActiveWindow()
 {
   __int64 (*v0)(void); // rax
@@ -261,16 +261,16 @@ __int64 TransparentWindow__GetActiveWindow()
 }
 
 
--
+================================================================================
 
 2).
-Name: get_WindowHandle
-Signature: get WindowHandle
-SourceLine: 23
+Name: SetWindowLong
+Signature: private static extern int SetWindowLong(IntPtr hWnd, int nIndex, uint dwNewLong)
+SourceLine: 25
 RVA: 0x320F40
 VA: 0x180320F40
 IDA_EA: 0x180320F40
--
+--------------------------------------------------------------------------------
 __int64 __fastcall TransparentWindow__SetWindowLong(__int64 a1, unsigned int a2, unsigned int a3)
 {
   __int64 (__fastcall *v3)(__int64, _QWORD, _QWORD); // rax
@@ -298,16 +298,16 @@ __int64 __fastcall TransparentWindow__SetWindowLong(__int64 a1, unsigned int a2,
 }
 
 
--
+================================================================================
 
 3).
-Name: get_WindowHandle
-Signature: get WindowHandle
-SourceLine: 29
+Name: SetWindowPos
+Signature: private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags)
+SourceLine: 31
 RVA: 0x320FE0
 VA: 0x180320FE0
 IDA_EA: 0x180320FE0
--
+--------------------------------------------------------------------------------
 bool __fastcall TransparentWindow__SetWindowPos(__int64 a1, __int64 a2, unsigned int a3, unsigned int a4, int a5, int a6, int a7)
 {
   __int64 (__fastcall *v7)(__int64, __int64, _QWORD, _QWORD, int, int, int); // rax
@@ -340,16 +340,16 @@ bool __fastcall TransparentWindow__SetWindowPos(__int64 a1, __int64 a2, unsigned
 }
 
 
--
+================================================================================
 
 4).
-Name: get_WindowHandle
-Signature: get WindowHandle
-SourceLine: 35
+Name: DwmExtendFrameIntoClientArea
+Signature: private static extern uint DwmExtendFrameIntoClientArea(IntPtr hWnd, ref TransparentWindow.MARGINS margins)
+SourceLine: 37
 RVA: 0x3210C0
 VA: 0x1803210C0
 IDA_EA: 0x1803210C0
--
+--------------------------------------------------------------------------------
 __int64 __fastcall TransparentWindow__DwmExtendFrameIntoClientArea(__int64 a1, __int64 a2)
 {
   __int64 (__fastcall *v2)(__int64, __int64); // rax
@@ -377,16 +377,16 @@ __int64 __fastcall TransparentWindow__DwmExtendFrameIntoClientArea(__int64 a1, _
 }
 
 
--
+================================================================================
 
 5).
 Name: get_WindowHandle
 Signature: get WindowHandle
-SourceLine: 46
+SourceLine: 47
 RVA: 0x321150
 VA: 0x180321150
 IDA_EA: 0x180321150
--
+--------------------------------------------------------------------------------
 __int64 TransparentWindow__get_WindowHandle()
 {
   __int64 v0; // rax
@@ -408,16 +408,16 @@ __int64 TransparentWindow__get_WindowHandle()
 }
 
 
--
+================================================================================
 
 6).
-Name: Start
-Signature: private void Start()
-SourceLine: 52
+Name: set_set
+Signature: set set
+SourceLine: 53
 RVA: 0x3211B0
 VA: 0x1803211B0
 IDA_EA: 0x1803211B0
--
+--------------------------------------------------------------------------------
 __int64 __fastcall TransparentWindow__set_WindowHandle(__int64 a1)
 {
   __int64 result; // rax
@@ -440,16 +440,16 @@ __int64 __fastcall TransparentWindow__set_WindowHandle(__int64 a1)
 }
 
 
--
+================================================================================
 
 7).
 Name: Start
 Signature: private void Start()
-SourceLine: 60
+SourceLine: 61
 RVA: 0x321210
 VA: 0x180321210
 IDA_EA: 0x180321210
--
+--------------------------------------------------------------------------------
 __int64 __fastcall TransparentWindow__Start(__int64 a1)
 {
   __int64 v2; // rcx
@@ -690,16 +690,16 @@ LABEL_20:
 }
 
 
--
+================================================================================
 
 8).
 Name: WatchClickthroughAsync
 Signature: private UniTaskVoid WatchClickthroughAsync(CancellationToken cancellationToken)
-SourceLine: 67
+SourceLine: 68
 RVA: 0x321760
 VA: 0x180321760
 IDA_EA: 0x180321760
--
+--------------------------------------------------------------------------------
 char __fastcall TransparentWindow__WatchClickthroughAsync(__int64 a1, __int64 *a2, unsigned __int64 a3)
 {
   __int64 v3; // rbx
@@ -779,16 +779,16 @@ char __fastcall TransparentWindow__WatchClickthroughAsync(__int64 a1, __int64 *a
 }
 
 
--
+================================================================================
 
 9).
 Name: SetClickthrough
 Signature: private void SetClickthrough(bool clickthrough)
-SourceLine: 75
+SourceLine: 76
 RVA: 0x3218F0
 VA: 0x1803218F0
 IDA_EA: 0x1803218F0
--
+--------------------------------------------------------------------------------
 __int64 __fastcall TransparentWindow__SetClickthrough(__int64 a1, char a2)
 {
   __int64 result; // rax
@@ -830,16 +830,16 @@ __int64 __fastcall TransparentWindow__SetClickthrough(__int64 a1, char a2)
 }
 
 
--
+================================================================================
 
 10).
 Name: TransparentWindow
 Signature: public TransparentWindow()
-SourceLine: 82
+SourceLine: 83
 RVA: 0x3219A0
 VA: 0x1803219A0
 IDA_EA: 0x1803219A0
--
+--------------------------------------------------------------------------------
 double __fastcall TransparentWindow___ctor(__int64 a1)
 {
   bool v1; // zf
@@ -861,16 +861,16 @@ double __fastcall TransparentWindow___ctor(__int64 a1)
 }
 
 
--
+================================================================================
 
 11).
 Name: MoveNext
 Signature: private void MoveNext()
-SourceLine: 183
+SourceLine: 184
 RVA: 0x321A40
 VA: 0x180321A40
 IDA_EA: 0x180321A40
--
+--------------------------------------------------------------------------------
 __int64 __fastcall TransparentWindow__WatchClickthroughAsync_d__25__MoveNext(__int64 a1, unsigned __int64 a2)
 {
   __int64 v2; // rsi
@@ -1218,21 +1218,21 @@ LABEL_6:
 }
 
 
--
+================================================================================
 
 12).
 Name: SetStateMachine
 Signature: private void SetStateMachine(IAsyncStateMachine stateMachine)
-SourceLine: 190
+SourceLine: 191
 RVA: 0x318320
 VA: 0x180318320
 IDA_EA: 0x180318320
--
+--------------------------------------------------------------------------------
 void UnitySourceGeneratedAssemblyMonoScriptTypes_v1___ctor()
 {
   ;
 }
 
 
--
+================================================================================
 

@@ -1,0 +1,1331 @@
+ну чтож тогда давай добьем это до конца 
+вот все что тебе понадобиться по идее для каждой структуры и сетера
+
+package net.minecraft.world.level.levelgen.structure.structures;
+
+import com.mojang.serialization.MapCodec;
+import java.util.Optional;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
+import net.minecraft.world.level.levelgen.structure.structures.BuriedTreasurePieces;
+
+/* loaded from: 1.21.1-server-temp.jar:net/minecraft/world/level/levelgen/structure/structures/BuriedTreasureStructure.class */
+public class BuriedTreasureStructure extends Structure {
+    public static final MapCodec<BuriedTreasureStructure> CODEC = simpleCodec(BuriedTreasureStructure::new);
+
+    public BuriedTreasureStructure(Structure.StructureSettings structureSettings) {
+        super(structureSettings);
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext generationContext) {
+        return onTopOfChunkCenter(generationContext, Heightmap.Types.OCEAN_FLOOR_WG, structurePiecesBuilder -> {
+            generatePieces(structurePiecesBuilder, generationContext);
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static void generatePieces(StructurePiecesBuilder structurePiecesBuilder, Structure.GenerationContext generationContext) {
+        structurePiecesBuilder.addPiece(new BuriedTreasurePieces.BuriedTreasurePiece(new BlockPos(generationContext.chunkPos().getBlockX(9), 90, generationContext.chunkPos().getBlockZ(9))));
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public StructureType<?> type() {
+        return StructureType.BURIED_TREASURE;
+    }
+}
+
+package net.minecraft.world.level.levelgen.structure.structures;
+
+import com.mojang.serialization.MapCodec;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectListIterator;
+import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.util.SortedArraySet;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.StructureManager;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.SinglePieceStructure;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructurePiece;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+
+/* loaded from: 1.21.1-server-temp.jar:net/minecraft/world/level/levelgen/structure/structures/DesertPyramidStructure.class */
+public class DesertPyramidStructure extends SinglePieceStructure {
+    public static final MapCodec<DesertPyramidStructure> CODEC = simpleCodec(DesertPyramidStructure::new);
+
+    public DesertPyramidStructure(Structure.StructureSettings structureSettings) {
+        super((v1, v2, v3) -> {
+            return new DesertPyramidPiece(v1, v2, v3);
+        }, 21, 21, structureSettings);
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public void afterPlace(WorldGenLevel worldGenLevel, StructureManager structureManager, ChunkGenerator chunkGenerator, RandomSource randomSource, BoundingBox boundingBox, ChunkPos chunkPos, PiecesContainer piecesContainer) {
+        SortedArraySet create = SortedArraySet.create((v0, v1) -> {
+            return v0.compareTo(v1);
+        });
+        for (StructurePiece structurePiece : piecesContainer.pieces()) {
+            if (structurePiece instanceof DesertPyramidPiece) {
+                DesertPyramidPiece desertPyramidPiece = (DesertPyramidPiece) structurePiece;
+                create.addAll(desertPyramidPiece.getPotentialSuspiciousSandWorldPositions());
+                placeSuspiciousSand(boundingBox, worldGenLevel, desertPyramidPiece.getRandomCollapsedRoofPos());
+            }
+        }
+        ObjectArrayList objectArrayList = new ObjectArrayList(create.stream().toList());
+        RandomSource at = RandomSource.create(worldGenLevel.getSeed()).forkPositional().at(piecesContainer.calculateBoundingBox().getCenter());
+        Util.shuffle(objectArrayList, at);
+        int min = Math.min(create.size(), at.nextInt(5, 8));
+        ObjectListIterator it = objectArrayList.iterator();
+        while (it.hasNext()) {
+            BlockPos blockPos = (BlockPos) it.next();
+            if (min > 0) {
+                min--;
+                placeSuspiciousSand(boundingBox, worldGenLevel, blockPos);
+            } else if (boundingBox.isInside(blockPos)) {
+                worldGenLevel.setBlock(blockPos, Blocks.SAND.defaultBlockState(), 2);
+            }
+        }
+    }
+
+    private static void placeSuspiciousSand(BoundingBox boundingBox, WorldGenLevel worldGenLevel, BlockPos blockPos) {
+        if (boundingBox.isInside(blockPos)) {
+            worldGenLevel.setBlock(blockPos, Blocks.SUSPICIOUS_SAND.defaultBlockState(), 2);
+            worldGenLevel.getBlockEntity(blockPos, BlockEntityType.BRUSHABLE_BLOCK).ifPresent(brushableBlockEntity -> {
+                brushableBlockEntity.setLootTable(BuiltInLootTables.DESERT_PYRAMID_ARCHAEOLOGY, blockPos.asLong());
+            });
+        }
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public StructureType<?> type() {
+        return StructureType.DESERT_PYRAMID;
+    }
+}
+
+package net.minecraft.world.level.levelgen.structure.structures;
+
+import com.google.common.collect.Lists;
+import com.mojang.serialization.MapCodec;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Consumer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
+
+/* loaded from: 1.21.1-server-temp.jar:net/minecraft/world/level/levelgen/structure/structures/EndCityStructure.class */
+public class EndCityStructure extends Structure {
+    public static final MapCodec<EndCityStructure> CODEC = simpleCodec(EndCityStructure::new);
+
+    public EndCityStructure(Structure.StructureSettings structureSettings) {
+        super(structureSettings);
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext generationContext) {
+        Rotation random = Rotation.getRandom(generationContext.random());
+        BlockPos lowestYIn5by5BoxOffset7Blocks = getLowestYIn5by5BoxOffset7Blocks(generationContext, random);
+        if (lowestYIn5by5BoxOffset7Blocks.getY() < 60) {
+            return Optional.empty();
+        }
+        return Optional.of(new Structure.GenerationStub(lowestYIn5by5BoxOffset7Blocks, (Consumer<StructurePiecesBuilder>) structurePiecesBuilder -> {
+            generatePieces(structurePiecesBuilder, lowestYIn5by5BoxOffset7Blocks, random, generationContext);
+        }));
+    }
+
+    private void generatePieces(StructurePiecesBuilder structurePiecesBuilder, BlockPos blockPos, Rotation rotation, Structure.GenerationContext generationContext) {
+        ArrayList newArrayList = Lists.newArrayList();
+        EndCityPieces.startHouseTower(generationContext.structureTemplateManager(), blockPos, rotation, newArrayList, generationContext.random());
+        Objects.requireNonNull(structurePiecesBuilder);
+        newArrayList.forEach(structurePiecesBuilder::addPiece);
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public StructureType<?> type() {
+        return StructureType.END_CITY;
+    }
+}
+
+package net.minecraft.world.level.levelgen.structure.structures;
+
+import com.mojang.serialization.MapCodec;
+import java.util.Optional;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
+
+/* loaded from: 1.21.1-server-temp.jar:net/minecraft/world/level/levelgen/structure/structures/IglooStructure.class */
+public class IglooStructure extends Structure {
+    public static final MapCodec<IglooStructure> CODEC = simpleCodec(IglooStructure::new);
+
+    public IglooStructure(Structure.StructureSettings structureSettings) {
+        super(structureSettings);
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext generationContext) {
+        return onTopOfChunkCenter(generationContext, Heightmap.Types.WORLD_SURFACE_WG, structurePiecesBuilder -> {
+            generatePieces(structurePiecesBuilder, generationContext);
+        });
+    }
+
+    private void generatePieces(StructurePiecesBuilder structurePiecesBuilder, Structure.GenerationContext generationContext) {
+        ChunkPos chunkPos = generationContext.chunkPos();
+        WorldgenRandom random = generationContext.random();
+        IglooPieces.addPieces(generationContext.structureTemplateManager(), new BlockPos(chunkPos.getMinBlockX(), 90, chunkPos.getMinBlockZ()), Rotation.getRandom(random), structurePiecesBuilder, random);
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public StructureType<?> type() {
+        return StructureType.IGLOO;
+    }
+}
+
+package net.minecraft.world.level.levelgen.structure.structures;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import java.util.List;
+import java.util.Optional;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.WorldGenerationContext;
+import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pools.DimensionPadding;
+import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasBinding;
+import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasLookup;
+import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+
+/* loaded from: 1.21.1-server-temp.jar:net/minecraft/world/level/levelgen/structure/structures/JigsawStructure.class */
+public final class JigsawStructure extends Structure {
+    public static final int MAX_TOTAL_STRUCTURE_RANGE = 128;
+    public static final int MIN_DEPTH = 0;
+    public static final int MAX_DEPTH = 20;
+    private final Holder<StructureTemplatePool> startPool;
+    private final Optional<ResourceLocation> startJigsawName;
+    private final int maxDepth;
+    private final HeightProvider startHeight;
+    private final boolean useExpansionHack;
+    private final Optional<Heightmap.Types> projectStartToHeightmap;
+    private final int maxDistanceFromCenter;
+    private final List<PoolAliasBinding> poolAliases;
+    private final DimensionPadding dimensionPadding;
+    private final LiquidSettings liquidSettings;
+    public static final DimensionPadding DEFAULT_DIMENSION_PADDING = DimensionPadding.ZERO;
+    public static final LiquidSettings DEFAULT_LIQUID_SETTINGS = LiquidSettings.APPLY_WATERLOGGING;
+    public static final MapCodec<JigsawStructure> CODEC = RecordCodecBuilder.mapCodec(instance -> {
+        return instance.group(settingsCodec(instance), StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(jigsawStructure -> {
+            return jigsawStructure.startPool;
+        }), ResourceLocation.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(jigsawStructure2 -> {
+            return jigsawStructure2.startJigsawName;
+        }), Codec.intRange(0, 20).fieldOf(StructureTemplate.SIZE_TAG).forGetter(jigsawStructure3 -> {
+            return Integer.valueOf(jigsawStructure3.maxDepth);
+        }), HeightProvider.CODEC.fieldOf("start_height").forGetter(jigsawStructure4 -> {
+            return jigsawStructure4.startHeight;
+        }), Codec.BOOL.fieldOf("use_expansion_hack").forGetter(jigsawStructure5 -> {
+            return Boolean.valueOf(jigsawStructure5.useExpansionHack);
+        }), Heightmap.Types.CODEC.optionalFieldOf("project_start_to_heightmap").forGetter(jigsawStructure6 -> {
+            return jigsawStructure6.projectStartToHeightmap;
+        }), Codec.intRange(1, 128).fieldOf("max_distance_from_center").forGetter(jigsawStructure7 -> {
+            return Integer.valueOf(jigsawStructure7.maxDistanceFromCenter);
+        }), Codec.list(PoolAliasBinding.CODEC).optionalFieldOf("pool_aliases", List.of()).forGetter(jigsawStructure8 -> {
+            return jigsawStructure8.poolAliases;
+        }), DimensionPadding.CODEC.optionalFieldOf("dimension_padding", DEFAULT_DIMENSION_PADDING).forGetter(jigsawStructure9 -> {
+            return jigsawStructure9.dimensionPadding;
+        }), LiquidSettings.CODEC.optionalFieldOf("liquid_settings", DEFAULT_LIQUID_SETTINGS).forGetter(jigsawStructure10 -> {
+            return jigsawStructure10.liquidSettings;
+        })).apply(instance, (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11) -> {
+            return new JigsawStructure(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
+        });
+    }).validate(JigsawStructure::verifyRange);
+
+    private static DataResult<JigsawStructure> verifyRange(JigsawStructure jigsawStructure) {
+        int i;
+        switch (jigsawStructure.terrainAdaptation()) {
+            case NONE:
+                i = 0;
+                break;
+            case BURY:
+            case BEARD_THIN:
+            case BEARD_BOX:
+            case ENCAPSULATE:
+                i = 12;
+                break;
+            default:
+                throw new MatchException((String) null, (Throwable) null);
+        }
+        if (jigsawStructure.maxDistanceFromCenter + i > 128) {
+            return DataResult.error(() -> {
+                return "Structure size including terrain adaptation must not exceed 128";
+            });
+        }
+        return DataResult.success(jigsawStructure);
+    }
+
+    public JigsawStructure(Structure.StructureSettings structureSettings, Holder<StructureTemplatePool> holder, Optional<ResourceLocation> optional, int i, HeightProvider heightProvider, boolean z, Optional<Heightmap.Types> optional2, int i2, List<PoolAliasBinding> list, DimensionPadding dimensionPadding, LiquidSettings liquidSettings) {
+        super(structureSettings);
+        this.startPool = holder;
+        this.startJigsawName = optional;
+        this.maxDepth = i;
+        this.startHeight = heightProvider;
+        this.useExpansionHack = z;
+        this.projectStartToHeightmap = optional2;
+        this.maxDistanceFromCenter = i2;
+        this.poolAliases = list;
+        this.dimensionPadding = dimensionPadding;
+        this.liquidSettings = liquidSettings;
+    }
+
+    public JigsawStructure(Structure.StructureSettings structureSettings, Holder<StructureTemplatePool> holder, int i, HeightProvider heightProvider, boolean z, Heightmap.Types types) {
+        this(structureSettings, holder, Optional.empty(), i, heightProvider, z, Optional.of(types), 80, List.of(), DEFAULT_DIMENSION_PADDING, DEFAULT_LIQUID_SETTINGS);
+    }
+
+    public JigsawStructure(Structure.StructureSettings structureSettings, Holder<StructureTemplatePool> holder, int i, HeightProvider heightProvider, boolean z) {
+        this(structureSettings, holder, Optional.empty(), i, heightProvider, z, Optional.empty(), 80, List.of(), DEFAULT_DIMENSION_PADDING, DEFAULT_LIQUID_SETTINGS);
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext generationContext) {
+        ChunkPos chunkPos = generationContext.chunkPos();
+        BlockPos blockPos = new BlockPos(chunkPos.getMinBlockX(), this.startHeight.sample(generationContext.random(), new WorldGenerationContext(generationContext.chunkGenerator(), generationContext.heightAccessor())), chunkPos.getMinBlockZ());
+        return JigsawPlacement.addPieces(generationContext, this.startPool, this.startJigsawName, this.maxDepth, blockPos, this.useExpansionHack, this.projectStartToHeightmap, this.maxDistanceFromCenter, PoolAliasLookup.create(this.poolAliases, blockPos, generationContext.seed()), this.dimensionPadding, this.liquidSettings);
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public StructureType<?> type() {
+        return StructureType.JIGSAW;
+    }
+}
+
+package net.minecraft.world.level.levelgen.structure.structures;
+
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.levelgen.structure.SinglePieceStructure;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+
+/* loaded from: 1.21.1-server-temp.jar:net/minecraft/world/level/levelgen/structure/structures/JungleTempleStructure.class */
+public class JungleTempleStructure extends SinglePieceStructure {
+    public static final MapCodec<JungleTempleStructure> CODEC = simpleCodec(JungleTempleStructure::new);
+
+    public JungleTempleStructure(Structure.StructureSettings structureSettings) {
+        super((v1, v2, v3) -> {
+            return new JungleTemplePiece(v1, v2, v3);
+        }, 12, 15, structureSettings);
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public StructureType<?> type() {
+        return StructureType.JUNGLE_TEMPLE;
+    }
+}
+
+package net.minecraft.world.level.levelgen.structure.structures;
+
+import com.mojang.datafixers.util.Either;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.IntFunction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.ByIdMap;
+import net.minecraft.util.Mth;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
+import net.minecraft.world.level.levelgen.structure.structures.MineshaftPieces;
+
+/* loaded from: 1.21.1-server-temp.jar:net/minecraft/world/level/levelgen/structure/structures/MineshaftStructure.class */
+public class MineshaftStructure extends Structure {
+    public static final MapCodec<MineshaftStructure> CODEC = RecordCodecBuilder.mapCodec(instance -> {
+        return instance.group(settingsCodec(instance), Type.CODEC.fieldOf("mineshaft_type").forGetter(mineshaftStructure -> {
+            return mineshaftStructure.type;
+        })).apply(instance, MineshaftStructure::new);
+    });
+    private final Type type;
+
+    public MineshaftStructure(Structure.StructureSettings structureSettings, Type type) {
+        super(structureSettings);
+        this.type = type;
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext generationContext) {
+        generationContext.random().nextDouble();
+        ChunkPos chunkPos = generationContext.chunkPos();
+        BlockPos blockPos = new BlockPos(chunkPos.getMiddleBlockX(), 50, chunkPos.getMinBlockZ());
+        StructurePiecesBuilder structurePiecesBuilder = new StructurePiecesBuilder();
+        return Optional.of(new Structure.GenerationStub(blockPos.offset(0, generatePiecesAndAdjust(structurePiecesBuilder, generationContext), 0), (Either<Consumer<StructurePiecesBuilder>, StructurePiecesBuilder>) Either.right(structurePiecesBuilder)));
+    }
+
+    private int generatePiecesAndAdjust(StructurePiecesBuilder structurePiecesBuilder, Structure.GenerationContext generationContext) {
+        ChunkPos chunkPos = generationContext.chunkPos();
+        WorldgenRandom random = generationContext.random();
+        ChunkGenerator chunkGenerator = generationContext.chunkGenerator();
+        MineshaftPieces.MineShaftRoom mineShaftRoom = new MineshaftPieces.MineShaftRoom(0, random, chunkPos.getBlockX(2), chunkPos.getBlockZ(2), this.type);
+        structurePiecesBuilder.addPiece(mineShaftRoom);
+        mineShaftRoom.addChildren(mineShaftRoom, structurePiecesBuilder, random);
+        int seaLevel = chunkGenerator.getSeaLevel();
+        if (this.type == Type.MESA) {
+            BlockPos center = structurePiecesBuilder.getBoundingBox().getCenter();
+            int baseHeight = chunkGenerator.getBaseHeight(center.getX(), center.getZ(), Heightmap.Types.WORLD_SURFACE_WG, generationContext.heightAccessor(), generationContext.randomState());
+            int randomBetweenInclusive = (baseHeight <= seaLevel ? seaLevel : Mth.randomBetweenInclusive(random, seaLevel, baseHeight)) - center.getY();
+            structurePiecesBuilder.offsetPiecesVertically(randomBetweenInclusive);
+            return randomBetweenInclusive;
+        }
+        return structurePiecesBuilder.moveBelowSeaLevel(seaLevel, chunkGenerator.getMinY(), random, 10);
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public StructureType<?> type() {
+        return StructureType.MINESHAFT;
+    }
+
+    /* loaded from: 1.21.1-server-temp.jar:net/minecraft/world/level/levelgen/structure/structures/MineshaftStructure$Type.class */
+    public enum Type implements StringRepresentable {
+        NORMAL("normal", Blocks.OAK_LOG, Blocks.OAK_PLANKS, Blocks.OAK_FENCE),
+        MESA("mesa", Blocks.DARK_OAK_LOG, Blocks.DARK_OAK_PLANKS, Blocks.DARK_OAK_FENCE);
+
+        public static final Codec<Type> CODEC = StringRepresentable.fromEnum(Type::values);
+        private static final IntFunction<Type> BY_ID = ByIdMap.continuous((v0) -> {
+            return v0.ordinal();
+        }, values(), ByIdMap.OutOfBoundsStrategy.ZERO);
+        private final String name;
+        private final BlockState woodState;
+        private final BlockState planksState;
+        private final BlockState fenceState;
+
+        Type(String str, Block block, Block block2, Block block3) {
+            this.name = str;
+            this.woodState = block.defaultBlockState();
+            this.planksState = block2.defaultBlockState();
+            this.fenceState = block3.defaultBlockState();
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+        public static Type byId(int i) {
+            return BY_ID.apply(i);
+        }
+
+        public BlockState getWoodState() {
+            return this.woodState;
+        }
+
+        public BlockState getPlanksState() {
+            return this.planksState;
+        }
+
+        public BlockState getFenceState() {
+            return this.fenceState;
+        }
+
+        @Override // net.minecraft.util.StringRepresentable
+        public String getSerializedName() {
+            return this.name;
+        }
+    }
+}
+
+package net.minecraft.world.level.levelgen.structure.structures;
+
+import com.mojang.serialization.MapCodec;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.random.WeightedRandomList;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.biome.MobSpawnSettings;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructurePiece;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
+import net.minecraft.world.level.levelgen.structure.structures.NetherFortressPieces;
+
+/* loaded from: 1.21.1-server-temp.jar:net/minecraft/world/level/levelgen/structure/structures/NetherFortressStructure.class */
+public class NetherFortressStructure extends Structure {
+    public static final WeightedRandomList<MobSpawnSettings.SpawnerData> FORTRESS_ENEMIES = WeightedRandomList.create(new MobSpawnSettings.SpawnerData(EntityType.BLAZE, 10, 2, 3), new MobSpawnSettings.SpawnerData(EntityType.ZOMBIFIED_PIGLIN, 5, 4, 4), new MobSpawnSettings.SpawnerData(EntityType.WITHER_SKELETON, 8, 5, 5), new MobSpawnSettings.SpawnerData(EntityType.SKELETON, 2, 5, 5), new MobSpawnSettings.SpawnerData(EntityType.MAGMA_CUBE, 3, 4, 4));
+    public static final MapCodec<NetherFortressStructure> CODEC = simpleCodec(NetherFortressStructure::new);
+
+    public NetherFortressStructure(Structure.StructureSettings structureSettings) {
+        super(structureSettings);
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext generationContext) {
+        ChunkPos chunkPos = generationContext.chunkPos();
+        return Optional.of(new Structure.GenerationStub(new BlockPos(chunkPos.getMinBlockX(), 64, chunkPos.getMinBlockZ()), (Consumer<StructurePiecesBuilder>) structurePiecesBuilder -> {
+            generatePieces(structurePiecesBuilder, generationContext);
+        }));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static void generatePieces(StructurePiecesBuilder structurePiecesBuilder, Structure.GenerationContext generationContext) {
+        NetherFortressPieces.StartPiece startPiece = new NetherFortressPieces.StartPiece(generationContext.random(), generationContext.chunkPos().getBlockX(2), generationContext.chunkPos().getBlockZ(2));
+        structurePiecesBuilder.addPiece(startPiece);
+        startPiece.addChildren(startPiece, structurePiecesBuilder, generationContext.random());
+        List<StructurePiece> list = startPiece.pendingChildren;
+        while (!list.isEmpty()) {
+            list.remove(generationContext.random().nextInt(list.size())).addChildren(startPiece, structurePiecesBuilder, generationContext.random());
+        }
+        structurePiecesBuilder.moveInsideHeights(generationContext.random(), 48, 70);
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public StructureType<?> type() {
+        return StructureType.FORTRESS;
+    }
+}
+
+package net.minecraft.world.level.levelgen.structure.structures;
+
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import java.util.Optional;
+import java.util.function.Consumer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.entity.Display;
+import net.minecraft.world.level.EmptyBlockGetter;
+import net.minecraft.world.level.NoiseColumn;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.WorldGenerationContext;
+import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
+
+/* loaded from: 1.21.1-server-temp.jar:net/minecraft/world/level/levelgen/structure/structures/NetherFossilStructure.class */
+public class NetherFossilStructure extends Structure {
+    public static final MapCodec<NetherFossilStructure> CODEC = RecordCodecBuilder.mapCodec(instance -> {
+        return instance.group(settingsCodec(instance), HeightProvider.CODEC.fieldOf(Display.TAG_HEIGHT).forGetter(netherFossilStructure -> {
+            return netherFossilStructure.height;
+        })).apply(instance, NetherFossilStructure::new);
+    });
+    public final HeightProvider height;
+
+    public NetherFossilStructure(Structure.StructureSettings structureSettings, HeightProvider heightProvider) {
+        super(structureSettings);
+        this.height = heightProvider;
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext generationContext) {
+        WorldgenRandom random = generationContext.random();
+        int minBlockX = generationContext.chunkPos().getMinBlockX() + random.nextInt(16);
+        int minBlockZ = generationContext.chunkPos().getMinBlockZ() + random.nextInt(16);
+        int seaLevel = generationContext.chunkGenerator().getSeaLevel();
+        int sample = this.height.sample(random, new WorldGenerationContext(generationContext.chunkGenerator(), generationContext.heightAccessor()));
+        NoiseColumn baseColumn = generationContext.chunkGenerator().getBaseColumn(minBlockX, minBlockZ, generationContext.heightAccessor(), generationContext.randomState());
+        BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos(minBlockX, sample, minBlockZ);
+        while (sample > seaLevel) {
+            BlockState block = baseColumn.getBlock(sample);
+            sample--;
+            BlockState block2 = baseColumn.getBlock(sample);
+            if (block.isAir() && (block2.is(Blocks.SOUL_SAND) || block2.isFaceSturdy(EmptyBlockGetter.INSTANCE, mutableBlockPos.setY(sample), Direction.UP))) {
+                break;
+            }
+        }
+        if (sample <= seaLevel) {
+            return Optional.empty();
+        }
+        BlockPos blockPos = new BlockPos(minBlockX, sample, minBlockZ);
+        return Optional.of(new Structure.GenerationStub(blockPos, (Consumer<StructurePiecesBuilder>) structurePiecesBuilder -> {
+            NetherFossilPieces.addPieces(generationContext.structureTemplateManager(), structurePiecesBuilder, random, blockPos);
+        }));
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public StructureType<?> type() {
+        return StructureType.NETHER_FOSSIL;
+    }
+}
+
+package net.minecraft.world.level.levelgen.structure.structures;
+
+import com.mojang.serialization.MapCodec;
+import java.util.Iterator;
+import java.util.Objects;
+import java.util.Optional;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.tags.BiomeTags;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.LegacyRandomSource;
+import net.minecraft.world.level.levelgen.RandomSupport;
+import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructurePiece;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
+import net.minecraft.world.level.levelgen.structure.structures.OceanMonumentPieces;
+
+/* loaded from: 1.21.1-server-temp.jar:net/minecraft/world/level/levelgen/structure/structures/OceanMonumentStructure.class */
+public class OceanMonumentStructure extends Structure {
+    public static final MapCodec<OceanMonumentStructure> CODEC = simpleCodec(OceanMonumentStructure::new);
+
+    public OceanMonumentStructure(Structure.StructureSettings structureSettings) {
+        super(structureSettings);
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext generationContext) {
+        Iterator<Holder<Biome>> it = generationContext.biomeSource().getBiomesWithin(generationContext.chunkPos().getBlockX(9), generationContext.chunkGenerator().getSeaLevel(), generationContext.chunkPos().getBlockZ(9), 29, generationContext.randomState().sampler()).iterator();
+        while (it.hasNext()) {
+            if (!it.next().is(BiomeTags.REQUIRED_OCEAN_MONUMENT_SURROUNDING)) {
+                return Optional.empty();
+            }
+        }
+        return onTopOfChunkCenter(generationContext, Heightmap.Types.OCEAN_FLOOR_WG, structurePiecesBuilder -> {
+            generatePieces(structurePiecesBuilder, generationContext);
+        });
+    }
+
+    private static StructurePiece createTopPiece(ChunkPos chunkPos, WorldgenRandom worldgenRandom) {
+        return new OceanMonumentPieces.MonumentBuilding(worldgenRandom, chunkPos.getMinBlockX() - 29, chunkPos.getMinBlockZ() - 29, Direction.Plane.HORIZONTAL.getRandomDirection(worldgenRandom));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static void generatePieces(StructurePiecesBuilder structurePiecesBuilder, Structure.GenerationContext generationContext) {
+        structurePiecesBuilder.addPiece(createTopPiece(generationContext.chunkPos(), generationContext.random()));
+    }
+
+    public static PiecesContainer regeneratePiecesAfterLoad(ChunkPos chunkPos, long j, PiecesContainer piecesContainer) {
+        if (piecesContainer.isEmpty()) {
+            return piecesContainer;
+        }
+        WorldgenRandom worldgenRandom = new WorldgenRandom(new LegacyRandomSource(RandomSupport.generateUniqueSeed()));
+        worldgenRandom.setLargeFeatureSeed(j, chunkPos.x, chunkPos.z);
+        StructurePiece structurePiece = piecesContainer.pieces().get(0);
+        BoundingBox boundingBox = structurePiece.getBoundingBox();
+        OceanMonumentPieces.MonumentBuilding monumentBuilding = new OceanMonumentPieces.MonumentBuilding(worldgenRandom, boundingBox.minX(), boundingBox.minZ(), (Direction) Objects.requireNonNullElse(structurePiece.getOrientation(), Direction.Plane.HORIZONTAL.getRandomDirection(worldgenRandom)));
+        StructurePiecesBuilder structurePiecesBuilder = new StructurePiecesBuilder();
+        structurePiecesBuilder.addPiece(monumentBuilding);
+        return structurePiecesBuilder.build();
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public StructureType<?> type() {
+        return StructureType.OCEAN_MONUMENT;
+    }
+}
+
+package net.minecraft.world.level.levelgen.structure.structures;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import java.util.Optional;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
+
+/* loaded from: 1.21.1-server-temp.jar:net/minecraft/world/level/levelgen/structure/structures/OceanRuinStructure.class */
+public class OceanRuinStructure extends Structure {
+    public static final MapCodec<OceanRuinStructure> CODEC = RecordCodecBuilder.mapCodec(instance -> {
+        return instance.group(settingsCodec(instance), Type.CODEC.fieldOf("biome_temp").forGetter(oceanRuinStructure -> {
+            return oceanRuinStructure.biomeTemp;
+        }), Codec.floatRange(0.0f, 1.0f).fieldOf("large_probability").forGetter(oceanRuinStructure2 -> {
+            return Float.valueOf(oceanRuinStructure2.largeProbability);
+        }), Codec.floatRange(0.0f, 1.0f).fieldOf("cluster_probability").forGetter(oceanRuinStructure3 -> {
+            return Float.valueOf(oceanRuinStructure3.clusterProbability);
+        })).apply(instance, (v1, v2, v3, v4) -> {
+            return new OceanRuinStructure(v1, v2, v3, v4);
+        });
+    });
+    public final Type biomeTemp;
+    public final float largeProbability;
+    public final float clusterProbability;
+
+    public OceanRuinStructure(Structure.StructureSettings structureSettings, Type type, float f, float f2) {
+        super(structureSettings);
+        this.biomeTemp = type;
+        this.largeProbability = f;
+        this.clusterProbability = f2;
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext generationContext) {
+        return onTopOfChunkCenter(generationContext, Heightmap.Types.OCEAN_FLOOR_WG, structurePiecesBuilder -> {
+            generatePieces(structurePiecesBuilder, generationContext);
+        });
+    }
+
+    private void generatePieces(StructurePiecesBuilder structurePiecesBuilder, Structure.GenerationContext generationContext) {
+        OceanRuinPieces.addPieces(generationContext.structureTemplateManager(), new BlockPos(generationContext.chunkPos().getMinBlockX(), 90, generationContext.chunkPos().getMinBlockZ()), Rotation.getRandom(generationContext.random()), structurePiecesBuilder, generationContext.random(), this);
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public StructureType<?> type() {
+        return StructureType.OCEAN_RUIN;
+    }
+
+    /* loaded from: 1.21.1-server-temp.jar:net/minecraft/world/level/levelgen/structure/structures/OceanRuinStructure$Type.class */
+    public enum Type implements StringRepresentable {
+        WARM("warm"),
+        COLD("cold");
+
+        public static final Codec<Type> CODEC = StringRepresentable.fromEnum(Type::values);
+        private final String name;
+
+        Type(String str) {
+            this.name = str;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+        @Override // net.minecraft.util.StringRepresentable
+        public String getSerializedName() {
+            return this.name;
+        }
+    }
+}
+
+package net.minecraft.world.level.levelgen.structure.structures;
+
+import com.google.common.collect.ImmutableList;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+import java.lang.runtime.ObjectMethods;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.QuartPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ExtraCodecs;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.LevelHeightAccessor;
+import net.minecraft.world.level.NoiseColumn;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.RandomState;
+import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
+import net.minecraft.world.level.levelgen.structure.structures.RuinedPortalPiece;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+
+/* loaded from: 1.21.1-server-temp.jar:net/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure.class */
+public class RuinedPortalStructure extends Structure {
+    private static final float PROBABILITY_OF_GIANT_PORTAL = 0.05f;
+    private static final int MIN_Y_INDEX = 15;
+    private final List<Setup> setups;
+    private static final String[] STRUCTURE_LOCATION_PORTALS = {"ruined_portal/portal_1", "ruined_portal/portal_2", "ruined_portal/portal_3", "ruined_portal/portal_4", "ruined_portal/portal_5", "ruined_portal/portal_6", "ruined_portal/portal_7", "ruined_portal/portal_8", "ruined_portal/portal_9", "ruined_portal/portal_10"};
+    private static final String[] STRUCTURE_LOCATION_GIANT_PORTALS = {"ruined_portal/giant_portal_1", "ruined_portal/giant_portal_2", "ruined_portal/giant_portal_3"};
+    public static final MapCodec<RuinedPortalStructure> CODEC = RecordCodecBuilder.mapCodec(instance -> {
+        return instance.group(settingsCodec(instance), ExtraCodecs.nonEmptyList(Setup.CODEC.listOf()).fieldOf("setups").forGetter(ruinedPortalStructure -> {
+            return ruinedPortalStructure.setups;
+        })).apply(instance, RuinedPortalStructure::new);
+    });
+
+    /* loaded from: 1.21.1-server-temp.jar:net/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup.class */
+    public static final class Setup extends Record {
+        private final RuinedPortalPiece.VerticalPlacement placement;
+        private final float airPocketProbability;
+        private final float mossiness;
+        private final boolean overgrown;
+        private final boolean vines;
+        private final boolean canBeCold;
+        private final boolean replaceWithBlackstone;
+        private final float weight;
+        public static final Codec<Setup> CODEC = RecordCodecBuilder.create(instance -> {
+            return instance.group(RuinedPortalPiece.VerticalPlacement.CODEC.fieldOf("placement").forGetter((v0) -> {
+                return v0.placement();
+            }), Codec.floatRange(0.0f, 1.0f).fieldOf("air_pocket_probability").forGetter((v0) -> {
+                return v0.airPocketProbability();
+            }), Codec.floatRange(0.0f, 1.0f).fieldOf("mossiness").forGetter((v0) -> {
+                return v0.mossiness();
+            }), Codec.BOOL.fieldOf("overgrown").forGetter((v0) -> {
+                return v0.overgrown();
+            }), Codec.BOOL.fieldOf("vines").forGetter((v0) -> {
+                return v0.vines();
+            }), Codec.BOOL.fieldOf("can_be_cold").forGetter((v0) -> {
+                return v0.canBeCold();
+            }), Codec.BOOL.fieldOf("replace_with_blackstone").forGetter((v0) -> {
+                return v0.replaceWithBlackstone();
+            }), ExtraCodecs.POSITIVE_FLOAT.fieldOf("weight").forGetter((v0) -> {
+                return v0.weight();
+            })).apply(instance, (v1, v2, v3, v4, v5, v6, v7, v8) -> {
+                return new Setup(v1, v2, v3, v4, v5, v6, v7, v8);
+            });
+        });
+
+        public Setup(RuinedPortalPiece.VerticalPlacement verticalPlacement, float f, float f2, boolean z, boolean z2, boolean z3, boolean z4, float f3) {
+            this.placement = verticalPlacement;
+            this.airPocketProbability = f;
+            this.mossiness = f2;
+            this.overgrown = z;
+            this.vines = z2;
+            this.canBeCold = z3;
+            this.replaceWithBlackstone = z4;
+            this.weight = f3;
+        }
+
+        @Override // java.lang.Record
+        public final String toString() {
+            return (String) ObjectMethods.bootstrap(MethodHandles.lookup(), "toString", MethodType.methodType(String.class, Setup.class), Setup.class, "placement;airPocketProbability;mossiness;overgrown;vines;canBeCold;replaceWithBlackstone;weight", "FIELD:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup;->placement:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalPiece$VerticalPlacement;", "FIELD:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup;->airPocketProbability:F", "FIELD:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup;->mossiness:F", "FIELD:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup;->overgrown:Z", "FIELD:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup;->vines:Z", "FIELD:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup;->canBeCold:Z", "FIELD:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup;->replaceWithBlackstone:Z", "FIELD:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup;->weight:F").dynamicInvoker().invoke(this) /* invoke-custom */;
+        }
+
+        @Override // java.lang.Record
+        public final int hashCode() {
+            return (int) ObjectMethods.bootstrap(MethodHandles.lookup(), "hashCode", MethodType.methodType(Integer.TYPE, Setup.class), Setup.class, "placement;airPocketProbability;mossiness;overgrown;vines;canBeCold;replaceWithBlackstone;weight", "FIELD:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup;->placement:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalPiece$VerticalPlacement;", "FIELD:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup;->airPocketProbability:F", "FIELD:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup;->mossiness:F", "FIELD:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup;->overgrown:Z", "FIELD:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup;->vines:Z", "FIELD:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup;->canBeCold:Z", "FIELD:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup;->replaceWithBlackstone:Z", "FIELD:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup;->weight:F").dynamicInvoker().invoke(this) /* invoke-custom */;
+        }
+
+        @Override // java.lang.Record
+        public final boolean equals(Object obj) {
+            return (boolean) ObjectMethods.bootstrap(MethodHandles.lookup(), "equals", MethodType.methodType(Boolean.TYPE, Setup.class, Object.class), Setup.class, "placement;airPocketProbability;mossiness;overgrown;vines;canBeCold;replaceWithBlackstone;weight", "FIELD:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup;->placement:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalPiece$VerticalPlacement;", "FIELD:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup;->airPocketProbability:F", "FIELD:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup;->mossiness:F", "FIELD:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup;->overgrown:Z", "FIELD:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup;->vines:Z", "FIELD:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup;->canBeCold:Z", "FIELD:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup;->replaceWithBlackstone:Z", "FIELD:Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure$Setup;->weight:F").dynamicInvoker().invoke(this, obj) /* invoke-custom */;
+        }
+
+        public RuinedPortalPiece.VerticalPlacement placement() {
+            return this.placement;
+        }
+
+        public float airPocketProbability() {
+            return this.airPocketProbability;
+        }
+
+        public float mossiness() {
+            return this.mossiness;
+        }
+
+        public boolean overgrown() {
+            return this.overgrown;
+        }
+
+        public boolean vines() {
+            return this.vines;
+        }
+
+        public boolean canBeCold() {
+            return this.canBeCold;
+        }
+
+        public boolean replaceWithBlackstone() {
+            return this.replaceWithBlackstone;
+        }
+
+        public float weight() {
+            return this.weight;
+        }
+    }
+
+    public RuinedPortalStructure(Structure.StructureSettings structureSettings, List<Setup> list) {
+        super(structureSettings);
+        this.setups = list;
+    }
+
+    public RuinedPortalStructure(Structure.StructureSettings structureSettings, Setup setup) {
+        this(structureSettings, (List<Setup>) List.of(setup));
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext generationContext) {
+        ResourceLocation withDefaultNamespace;
+        RuinedPortalPiece.Properties properties = new RuinedPortalPiece.Properties();
+        WorldgenRandom random = generationContext.random();
+        Setup setup = null;
+        if (this.setups.size() > 1) {
+            float f = 0.0f;
+            Iterator<Setup> it = this.setups.iterator();
+            while (it.hasNext()) {
+                f += it.next().weight();
+            }
+            float nextFloat = random.nextFloat();
+            Iterator<Setup> it2 = this.setups.iterator();
+            while (true) {
+                if (!it2.hasNext()) {
+                    break;
+                }
+                Setup next = it2.next();
+                nextFloat -= next.weight() / f;
+                if (nextFloat < 0.0f) {
+                    setup = next;
+                    break;
+                }
+            }
+        } else {
+            setup = this.setups.get(0);
+        }
+        if (setup == null) {
+            throw new IllegalStateException();
+        }
+        Setup setup2 = setup;
+        properties.airPocket = sample(random, setup2.airPocketProbability());
+        properties.mossiness = setup2.mossiness();
+        properties.overgrown = setup2.overgrown();
+        properties.vines = setup2.vines();
+        properties.replaceWithBlackstone = setup2.replaceWithBlackstone();
+        if (random.nextFloat() < 0.05f) {
+            withDefaultNamespace = ResourceLocation.withDefaultNamespace(STRUCTURE_LOCATION_GIANT_PORTALS[random.nextInt(STRUCTURE_LOCATION_GIANT_PORTALS.length)]);
+        } else {
+            withDefaultNamespace = ResourceLocation.withDefaultNamespace(STRUCTURE_LOCATION_PORTALS[random.nextInt(STRUCTURE_LOCATION_PORTALS.length)]);
+        }
+        StructureTemplate orCreate = generationContext.structureTemplateManager().getOrCreate(withDefaultNamespace);
+        Rotation rotation = (Rotation) Util.getRandom(Rotation.values(), random);
+        Mirror mirror = random.nextFloat() < 0.5f ? Mirror.NONE : Mirror.FRONT_BACK;
+        BlockPos blockPos = new BlockPos(orCreate.getSize().getX() / 2, 0, orCreate.getSize().getZ() / 2);
+        ChunkGenerator chunkGenerator = generationContext.chunkGenerator();
+        LevelHeightAccessor heightAccessor = generationContext.heightAccessor();
+        RandomState randomState = generationContext.randomState();
+        BlockPos worldPosition = generationContext.chunkPos().getWorldPosition();
+        BoundingBox boundingBox = orCreate.getBoundingBox(worldPosition, rotation, blockPos, mirror);
+        BlockPos center = boundingBox.getCenter();
+        BlockPos blockPos2 = new BlockPos(worldPosition.getX(), findSuitableY(random, chunkGenerator, setup2.placement(), properties.airPocket, chunkGenerator.getBaseHeight(center.getX(), center.getZ(), RuinedPortalPiece.getHeightMapType(setup2.placement()), heightAccessor, randomState) - 1, boundingBox.getYSpan(), boundingBox, heightAccessor, randomState), worldPosition.getZ());
+        ResourceLocation resourceLocation = withDefaultNamespace;
+        return Optional.of(new Structure.GenerationStub(blockPos2, (Consumer<StructurePiecesBuilder>) structurePiecesBuilder -> {
+            if (setup2.canBeCold()) {
+                properties.cold = isCold(blockPos2, generationContext.chunkGenerator().getBiomeSource().getNoiseBiome(QuartPos.fromBlock(blockPos2.getX()), QuartPos.fromBlock(blockPos2.getY()), QuartPos.fromBlock(blockPos2.getZ()), randomState.sampler()));
+            }
+            structurePiecesBuilder.addPiece(new RuinedPortalPiece(generationContext.structureTemplateManager(), blockPos2, setup2.placement(), properties, resourceLocation, orCreate, rotation, mirror, blockPos));
+        }));
+    }
+
+    private static boolean sample(WorldgenRandom worldgenRandom, float f) {
+        if (f == 0.0f) {
+            return false;
+        }
+        return f == 1.0f || worldgenRandom.nextFloat() < f;
+    }
+
+    private static boolean isCold(BlockPos blockPos, Holder<Biome> holder) {
+        return holder.value().coldEnoughToSnow(blockPos);
+    }
+
+    private static int findSuitableY(RandomSource randomSource, ChunkGenerator chunkGenerator, RuinedPortalPiece.VerticalPlacement verticalPlacement, boolean z, int i, int i2, BoundingBox boundingBox, LevelHeightAccessor levelHeightAccessor, RandomState randomState) {
+        int i3;
+        int minBuildHeight = levelHeightAccessor.getMinBuildHeight() + 15;
+        if (verticalPlacement == RuinedPortalPiece.VerticalPlacement.IN_NETHER) {
+            if (z) {
+                i3 = Mth.randomBetweenInclusive(randomSource, 32, 100);
+            } else if (randomSource.nextFloat() < 0.5f) {
+                i3 = Mth.randomBetweenInclusive(randomSource, 27, 29);
+            } else {
+                i3 = Mth.randomBetweenInclusive(randomSource, 29, 100);
+            }
+        } else if (verticalPlacement == RuinedPortalPiece.VerticalPlacement.IN_MOUNTAIN) {
+            i3 = getRandomWithinInterval(randomSource, 70, i - i2);
+        } else if (verticalPlacement == RuinedPortalPiece.VerticalPlacement.UNDERGROUND) {
+            i3 = getRandomWithinInterval(randomSource, minBuildHeight, i - i2);
+        } else if (verticalPlacement == RuinedPortalPiece.VerticalPlacement.PARTLY_BURIED) {
+            i3 = (i - i2) + Mth.randomBetweenInclusive(randomSource, 2, 8);
+        } else {
+            i3 = i;
+        }
+        List list = (List) ImmutableList.of(new BlockPos(boundingBox.minX(), 0, boundingBox.minZ()), new BlockPos(boundingBox.maxX(), 0, boundingBox.minZ()), new BlockPos(boundingBox.minX(), 0, boundingBox.maxZ()), new BlockPos(boundingBox.maxX(), 0, boundingBox.maxZ())).stream().map(blockPos -> {
+            return chunkGenerator.getBaseColumn(blockPos.getX(), blockPos.getZ(), levelHeightAccessor, randomState);
+        }).collect(Collectors.toList());
+        Heightmap.Types types = verticalPlacement == RuinedPortalPiece.VerticalPlacement.ON_OCEAN_FLOOR ? Heightmap.Types.OCEAN_FLOOR_WG : Heightmap.Types.WORLD_SURFACE_WG;
+        int i4 = i3;
+        loop0: while (i4 > minBuildHeight) {
+            int i5 = 0;
+            Iterator it = list.iterator();
+            while (it.hasNext()) {
+                if (types.isOpaque().test(((NoiseColumn) it.next()).getBlock(i4))) {
+                    i5++;
+                    if (i5 == 3) {
+                        break loop0;
+                    }
+                }
+            }
+            i4--;
+        }
+        return i4;
+    }
+
+    private static int getRandomWithinInterval(RandomSource randomSource, int i, int i2) {
+        if (i < i2) {
+            return Mth.randomBetweenInclusive(randomSource, i, i2);
+        }
+        return i2;
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public StructureType<?> type() {
+        return StructureType.RUINED_PORTAL;
+    }
+}
+
+package net.minecraft.world.level.levelgen.structure.structures;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import java.util.Optional;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
+import net.minecraft.world.level.levelgen.structure.structures.ShipwreckPieces;
+
+/* loaded from: 1.21.1-server-temp.jar:net/minecraft/world/level/levelgen/structure/structures/ShipwreckStructure.class */
+public class ShipwreckStructure extends Structure {
+    public static final MapCodec<ShipwreckStructure> CODEC = RecordCodecBuilder.mapCodec(instance -> {
+        return instance.group(settingsCodec(instance), Codec.BOOL.fieldOf("is_beached").forGetter(shipwreckStructure -> {
+            return Boolean.valueOf(shipwreckStructure.isBeached);
+        })).apply(instance, (v1, v2) -> {
+            return new ShipwreckStructure(v1, v2);
+        });
+    });
+    public final boolean isBeached;
+
+    public ShipwreckStructure(Structure.StructureSettings structureSettings, boolean z) {
+        super(structureSettings);
+        this.isBeached = z;
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext generationContext) {
+        return onTopOfChunkCenter(generationContext, this.isBeached ? Heightmap.Types.WORLD_SURFACE_WG : Heightmap.Types.OCEAN_FLOOR_WG, structurePiecesBuilder -> {
+            generatePieces(structurePiecesBuilder, generationContext);
+        });
+    }
+
+    private void generatePieces(StructurePiecesBuilder structurePiecesBuilder, Structure.GenerationContext generationContext) {
+        int meanFirstOccupiedHeight;
+        Rotation random = Rotation.getRandom(generationContext.random());
+        ShipwreckPieces.ShipwreckPiece addRandomPiece = ShipwreckPieces.addRandomPiece(generationContext.structureTemplateManager(), new BlockPos(generationContext.chunkPos().getMinBlockX(), 90, generationContext.chunkPos().getMinBlockZ()), random, structurePiecesBuilder, generationContext.random(), this.isBeached);
+        if (addRandomPiece.isTooBigToFitInWorldGenRegion()) {
+            BoundingBox boundingBox = addRandomPiece.getBoundingBox();
+            if (this.isBeached) {
+                meanFirstOccupiedHeight = addRandomPiece.calculateBeachedPosition(Structure.getLowestY(generationContext, boundingBox.minX(), boundingBox.getXSpan(), boundingBox.minZ(), boundingBox.getZSpan()), generationContext.random());
+            } else {
+                meanFirstOccupiedHeight = Structure.getMeanFirstOccupiedHeight(generationContext, boundingBox.minX(), boundingBox.getXSpan(), boundingBox.minZ(), boundingBox.getZSpan());
+            }
+            addRandomPiece.adjustPositionHeight(meanFirstOccupiedHeight);
+        }
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public StructureType<?> type() {
+        return StructureType.SHIPWRECK;
+    }
+}
+
+package net.minecraft.world.level.levelgen.structure.structures;
+
+import com.mojang.serialization.MapCodec;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructurePiece;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
+import net.minecraft.world.level.levelgen.structure.structures.StrongholdPieces;
+
+/* loaded from: 1.21.1-server-temp.jar:net/minecraft/world/level/levelgen/structure/structures/StrongholdStructure.class */
+public class StrongholdStructure extends Structure {
+    public static final MapCodec<StrongholdStructure> CODEC = simpleCodec(StrongholdStructure::new);
+
+    public StrongholdStructure(Structure.StructureSettings structureSettings) {
+        super(structureSettings);
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext generationContext) {
+        return Optional.of(new Structure.GenerationStub(generationContext.chunkPos().getWorldPosition(), (Consumer<StructurePiecesBuilder>) structurePiecesBuilder -> {
+            generatePieces(structurePiecesBuilder, generationContext);
+        }));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static void generatePieces(StructurePiecesBuilder structurePiecesBuilder, Structure.GenerationContext generationContext) {
+        int i = 0;
+        while (true) {
+            structurePiecesBuilder.clear();
+            int i2 = i;
+            i++;
+            generationContext.random().setLargeFeatureSeed(generationContext.seed() + i2, generationContext.chunkPos().x, generationContext.chunkPos().z);
+            StrongholdPieces.resetPieces();
+            StrongholdPieces.StartPiece startPiece = new StrongholdPieces.StartPiece(generationContext.random(), generationContext.chunkPos().getBlockX(2), generationContext.chunkPos().getBlockZ(2));
+            structurePiecesBuilder.addPiece(startPiece);
+            startPiece.addChildren(startPiece, structurePiecesBuilder, generationContext.random());
+            List<StructurePiece> list = startPiece.pendingChildren;
+            while (!list.isEmpty()) {
+                list.remove(generationContext.random().nextInt(list.size())).addChildren(startPiece, structurePiecesBuilder, generationContext.random());
+            }
+            structurePiecesBuilder.moveBelowSeaLevel(generationContext.chunkGenerator().getSeaLevel(), generationContext.chunkGenerator().getMinY(), generationContext.random(), 10);
+            if (!structurePiecesBuilder.isEmpty() && startPiece.portalRoomPiece != null) {
+                return;
+            }
+        }
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public StructureType<?> type() {
+        return StructureType.STRONGHOLD;
+    }
+}
+
+package net.minecraft.world.level.levelgen.structure.structures;
+
+import com.mojang.serialization.MapCodec;
+import java.util.Optional;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
+
+/* loaded from: 1.21.1-server-temp.jar:net/minecraft/world/level/levelgen/structure/structures/SwampHutStructure.class */
+public class SwampHutStructure extends Structure {
+    public static final MapCodec<SwampHutStructure> CODEC = simpleCodec(SwampHutStructure::new);
+
+    public SwampHutStructure(Structure.StructureSettings structureSettings) {
+        super(structureSettings);
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext generationContext) {
+        return onTopOfChunkCenter(generationContext, Heightmap.Types.WORLD_SURFACE_WG, structurePiecesBuilder -> {
+            generatePieces(structurePiecesBuilder, generationContext);
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static void generatePieces(StructurePiecesBuilder structurePiecesBuilder, Structure.GenerationContext generationContext) {
+        structurePiecesBuilder.addPiece(new SwampHutPiece(generationContext.random(), generationContext.chunkPos().getMinBlockX(), generationContext.chunkPos().getMinBlockZ()));
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public StructureType<?> type() {
+        return StructureType.SWAMP_HUT;
+    }
+}
+
+package net.minecraft.world.level.levelgen.structure.structures;
+
+import com.google.common.collect.Lists;
+import com.mojang.serialization.MapCodec;
+import java.util.LinkedList;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Consumer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.StructureManager;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
+
+/* loaded from: 1.21.1-server-temp.jar:net/minecraft/world/level/levelgen/structure/structures/WoodlandMansionStructure.class */
+public class WoodlandMansionStructure extends Structure {
+    public static final MapCodec<WoodlandMansionStructure> CODEC = simpleCodec(WoodlandMansionStructure::new);
+
+    public WoodlandMansionStructure(Structure.StructureSettings structureSettings) {
+        super(structureSettings);
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext generationContext) {
+        Rotation random = Rotation.getRandom(generationContext.random());
+        BlockPos lowestYIn5by5BoxOffset7Blocks = getLowestYIn5by5BoxOffset7Blocks(generationContext, random);
+        if (lowestYIn5by5BoxOffset7Blocks.getY() < 60) {
+            return Optional.empty();
+        }
+        return Optional.of(new Structure.GenerationStub(lowestYIn5by5BoxOffset7Blocks, (Consumer<StructurePiecesBuilder>) structurePiecesBuilder -> {
+            generatePieces(structurePiecesBuilder, generationContext, lowestYIn5by5BoxOffset7Blocks, random);
+        }));
+    }
+
+    private void generatePieces(StructurePiecesBuilder structurePiecesBuilder, Structure.GenerationContext generationContext, BlockPos blockPos, Rotation rotation) {
+        LinkedList newLinkedList = Lists.newLinkedList();
+        WoodlandMansionPieces.generateMansion(generationContext.structureTemplateManager(), blockPos, rotation, newLinkedList, generationContext.random());
+        Objects.requireNonNull(structurePiecesBuilder);
+        newLinkedList.forEach((v1) -> {
+            r1.addPiece(v1);
+        });
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public void afterPlace(WorldGenLevel worldGenLevel, StructureManager structureManager, ChunkGenerator chunkGenerator, RandomSource randomSource, BoundingBox boundingBox, ChunkPos chunkPos, PiecesContainer piecesContainer) {
+        BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
+        int minBuildHeight = worldGenLevel.getMinBuildHeight();
+        BoundingBox calculateBoundingBox = piecesContainer.calculateBoundingBox();
+        int minY = calculateBoundingBox.minY();
+        for (int minX = boundingBox.minX(); minX <= boundingBox.maxX(); minX++) {
+            for (int minZ = boundingBox.minZ(); minZ <= boundingBox.maxZ(); minZ++) {
+                mutableBlockPos.set(minX, minY, minZ);
+                if (!worldGenLevel.isEmptyBlock(mutableBlockPos) && calculateBoundingBox.isInside(mutableBlockPos) && piecesContainer.isInsidePiece(mutableBlockPos)) {
+                    for (int i = minY - 1; i > minBuildHeight; i--) {
+                        mutableBlockPos.setY(i);
+                        if (worldGenLevel.isEmptyBlock(mutableBlockPos) || worldGenLevel.getBlockState(mutableBlockPos).liquid()) {
+                            worldGenLevel.setBlock(mutableBlockPos, Blocks.COBBLESTONE.defaultBlockState(), 2);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.Structure
+    public StructureType<?> type() {
+        return StructureType.WOODLAND_MANSION;
+    }
+}
+
+package net.minecraft.world.level.levelgen.structure.placement;
+
+import com.mojang.datafixers.Products;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import java.util.List;
+import java.util.Optional;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.RegistryCodecs;
+import net.minecraft.core.Vec3i;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.LevelEvent;
+import net.minecraft.world.level.chunk.ChunkGeneratorStructureState;
+import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement;
+
+/* loaded from: 1.21.1-server-temp.jar:net/minecraft/world/level/levelgen/structure/placement/ConcentricRingsStructurePlacement.class */
+public class ConcentricRingsStructurePlacement extends StructurePlacement {
+    public static final MapCodec<ConcentricRingsStructurePlacement> CODEC = RecordCodecBuilder.mapCodec(instance -> {
+        return codec(instance).apply(instance, (v1, v2, v3, v4, v5, v6, v7, v8, v9) -> {
+            return new ConcentricRingsStructurePlacement(v1, v2, v3, v4, v5, v6, v7, v8, v9);
+        });
+    });
+    private final int distance;
+    private final int spread;
+    private final int count;
+    private final HolderSet<Biome> preferredBiomes;
+
+    private static Products.P9<RecordCodecBuilder.Mu<ConcentricRingsStructurePlacement>, Vec3i, StructurePlacement.FrequencyReductionMethod, Float, Integer, Optional<StructurePlacement.ExclusionZone>, Integer, Integer, Integer, HolderSet<Biome>> codec(RecordCodecBuilder.Instance<ConcentricRingsStructurePlacement> instance) {
+        Products.P5 placementCodec = placementCodec(instance);
+        Products.P4 group = instance.group(Codec.intRange(0, LevelEvent.SOUND_WITHER_BOSS_SPAWN).fieldOf("distance").forGetter((v0) -> {
+            return v0.distance();
+        }), Codec.intRange(0, LevelEvent.SOUND_WITHER_BOSS_SPAWN).fieldOf("spread").forGetter((v0) -> {
+            return v0.spread();
+        }), Codec.intRange(1, 4095).fieldOf("count").forGetter((v0) -> {
+            return v0.count();
+        }), RegistryCodecs.homogeneousList(Registries.BIOME).fieldOf("preferred_biomes").forGetter((v0) -> {
+            return v0.preferredBiomes();
+        }));
+        return new Products.P9<>(placementCodec.t1(), placementCodec.t2(), placementCodec.t3(), placementCodec.t4(), placementCodec.t5(), group.t1(), group.t2(), group.t3(), group.t4());
+    }
+
+    public ConcentricRingsStructurePlacement(Vec3i vec3i, StructurePlacement.FrequencyReductionMethod frequencyReductionMethod, float f, int i, Optional<StructurePlacement.ExclusionZone> optional, int i2, int i3, int i4, HolderSet<Biome> holderSet) {
+        super(vec3i, frequencyReductionMethod, f, i, optional);
+        this.distance = i2;
+        this.spread = i3;
+        this.count = i4;
+        this.preferredBiomes = holderSet;
+    }
+
+    public ConcentricRingsStructurePlacement(int i, int i2, int i3, HolderSet<Biome> holderSet) {
+        this(Vec3i.ZERO, StructurePlacement.FrequencyReductionMethod.DEFAULT, 1.0f, 0, Optional.empty(), i, i2, i3, holderSet);
+    }
+
+    public int distance() {
+        return this.distance;
+    }
+
+    public int spread() {
+        return this.spread;
+    }
+
+    public int count() {
+        return this.count;
+    }
+
+    public HolderSet<Biome> preferredBiomes() {
+        return this.preferredBiomes;
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.placement.StructurePlacement
+    protected boolean isPlacementChunk(ChunkGeneratorStructureState chunkGeneratorStructureState, int i, int i2) {
+        List<ChunkPos> ringPositionsFor = chunkGeneratorStructureState.getRingPositionsFor(this);
+        if (ringPositionsFor == null) {
+            return false;
+        }
+        return ringPositionsFor.contains(new ChunkPos(i, i2));
+    }
+
+    @Override // net.minecraft.world.level.levelgen.structure.placement.StructurePlacement
+    public StructurePlacementType<?> type() {
+        return StructurePlacementType.CONCENTRIC_RINGS;
+    }
+}
